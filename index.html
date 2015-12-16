@@ -1,86 +1,256 @@
 <!DOCTYPE html>
-<html>
-
+<!--[if IE 9]>
+<html lang="en" class="ie9"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en">
+<!--<![endif]-->
 <head>
-    <meta charset='utf-8'>
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="description" content="xeoEngine : An object-component based 3D engine on WebGL ">
+    <meta charset="utf-8">
+    <title>xeoEngine - A WebGL-based 3D engine from @xeoLabs</title>
+    <meta name="author" content="xeolabs.com">
+    <meta property="og:url" content="http://www.xeoengine.org"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:title" content="xeoEngine - WebGL-based 3D visualization engine"/>
+    <meta property="og:description"
+          content="A highly-optimized 3D visualization framework with an API that's fun to use"/>
+    <meta property="og:image" content="http://www.xeoengine.org/assets/images/torus.png"/>
 
-    <link rel="stylesheet" type="text/css" media="screen" href="assets/css/stylesheet.css">
+    <!-- Mobile Meta -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="assets/images/favicon.ico">
+
+    <!-- Web Fonts -->
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700,300&amp;subset=latin,latin-ext'
+          rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Raleway:700,400,300' rel='stylesheet' type='text/css'>
+
+    <!--<link href='https://fonts.googleapis.com/css?family=Roboto|Roboto+Condensed|Roboto+Mono|Roboto+Slab' rel='stylesheet' type='text/css'>-->
+
+    <!-- Bootstrap core CSS -->
+    <link href="assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Awesome CSS -->
+    <!--<link href="assets/fonts/font-awesome/css/font-awesome.css" rel="stylesheet">-->
+
+    <!-- Plugins -->
+    <link href="assets/css/animations.css" rel="stylesheet">
+
+    <!-- Worthy core CSS file -->
+    <link href="assets/css/style.css" rel="stylesheet">
+
+    <!-- Custom css -->
+    <link href="assets/css/custom.css" rel="stylesheet">
+
+    <!-- Prettify -->
     <link href="assets/css/prettify.css" rel="stylesheet"/>
+
+
     <script src="assets/js/prettify.js"></script>
 
-    <title>xeoEngine</title>
 </head>
 
-<body>
+<body class="no-trans">
+<div id="fb-root"></div>
+<script>(function (d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s);
+    js.id = id;
+    js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.5&appId=132893453432205";
+    fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<!-- scrollToTop -->
+<!-- ================ -->
+<div class="scrollToTop"><i class="icon-up-open-big"></i></div>
 
-<!--<div id="top_wrap" class="outer">-->
+<!-- header start -->
+<!-- ================ -->
+<header class="header fixed clearfix navbar navbar-fixed-top">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
 
-<!--<br>-->
+                <!-- header-left start -->
+                <!-- ================ -->
+                <div class="header-left clearfix">
 
-<!--</div>-->
+                    <!--&lt;!&ndash; logo &ndash;&gt;-->
+                    <!--<div class="logo smooth-scroll">-->
+                    <!--<a href="#banner"><img id="logo" src="assets/images/mesh_logo.png" alt="xeoEngine"></a>-->
+                    <!--</div>-->
 
-<!-- HEADER -->
-<div id="header_wrap" class="outer">
-    <header id="top-wrap" class="inner">
-        <a id="forkme_banner" href="https://github.com/xeolabs/xeoengine">View on GitHub</a>
+                    <!-- name-and-slogan -->
+                    <div class="site-name-and-slogan smooth-scroll">
+                        <div class="site-name"><a href="#banner">xeoEngine</a></div>
+                        <div class="site-slogan">A WebGL-based 3D engine by <a target="_blank"
+                                                                               href="http://xeolabs.com">xeoLabs</a>
+                        </div>
+                    </div>
 
-        <img src="assets/images/mesh_logo.jpg">
+                </div>
+                <!-- header-left end -->
 
-        <h1 id="project_title">xeoEngine</h1>
+            </div>
+            <div class="col-md-8">
 
-        <h2 id="project_tagline">a WebGL-based 3D engine</h2>
+                <!-- header-right start -->
+                <!-- ================ -->
+                <div class="header-right clearfix">
 
-        <section id="downloads">
-            <a class="zip_download_link" href="https://github.com/xeolabs/xeoengine/zipball/master">Download this
-                project as a .zip file</a>
-            <a class="tar_download_link" href="https://github.com/xeolabs/xeoengine/tarball/master">Download this
-                project as a tar.gz file</a>
-        </section>
-    </header>
+                    <!-- main-navigation start -->
+                    <!-- ================ -->
+                    <div class="main-navigation animated">
+
+                        <!-- navbar start -->
+                        <!-- ================ -->
+                        <nav class="navbar navbar-default" role="navigation">
+                            <div class="container-fluid">
+
+                                <!-- Toggle get grouped for better mobile display -->
+                                <div class="navbar-header">
+                                    <button type="button" class="navbar-toggle" data-toggle="collapse"
+                                            data-target="#navbar-collapse-1">
+                                        <span class="sr-only">Toggle navigation</span>
+                                        <span class="icon-bar"></span>
+                                        <span class="icon-bar"></span>
+                                        <span class="icon-bar"></span>
+                                    </button>
+                                </div>
+
+                                <!-- Collect the nav links, forms, and other content for toggling -->
+                                <div class="collapse navbar-collapse scrollspy smooth-scroll" id="navbar-collapse-1">
+                                    <ul class="nav navbar-nav navbar-right">
+                                        <li class="active"><a href="#banner">Home</a></li>
+                                        <li><a href="#concept">Concept</a></li>
+                                        <li><a href="#features">Features</a></li>
+                                        <li><a href="http://xeoengine.org/examples">Examples</a></li>
+                                        <li><a href="http://xeoengine.org/docs">Docs</a></li>
+                                        <li><a href="https://github.com/xeolabs/xeoengine">Github</a></li>
+                                        <li>
+                                            <a href="https://github.com/xeolabs/xeoengine/archive/master.zip">Download</a>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                            </div>
+                        </nav>
+                        <!-- navbar end -->
+
+                    </div>
+                    <!-- main-navigation end -->
+
+                </div>
+                <!-- header-right end -->
+
+            </div>
+        </div>
+    </div>
+</header>
+<!-- header end -->
+
+<!-- banner start -->
+<!-- ================ -->
+<div id="banner" class="banner">
+
+    <iframe id="demoLink" style="width:100%; height:100%; pointer-events:all;"
+            src="../examples/demos_1.html"></iframe>
+
+    <div class="banner-caption">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 object-non-visible" data-animation-effect="fadeIn">
+                    <h1>An open source engine for Web-based 3D visualization</h1>
+
+                    <p class="lead">Created by <a target="_blank"
+                                                  href="http://twitter.com/xeolabs">@xeoLabs</a></p>
+
+                    <script>!function (d, s, id) {
+                        var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https';
+                        if (!d.getElementById(id)) {
+                            js = d.createElement(s);
+                            js.id = id;
+                            js.src = p + '://platform.twitter.com/widgets.js';
+                            fjs.parentNode.insertBefore(js, fjs);
+                        }
+                    }(document, 'script', 'twitter-wjs');</script>
+
+                    <iframe src="https://ghbtns.com/github-btn.html?user=xeolabs&repo=xeoengine&type=star&count=true"
+                            frameborder="0" scrolling="0" width="100px" height="20px"></iframe>
+                    <iframe src="https://ghbtns.com/github-btn.html?user=xeolabs&repo=xeoengine&type=fork&count=true"
+                            frameborder="0" scrolling="0" width="100px" height="20px"></iframe>
+                    <a class="twitter-follow-button"
+                       href="https://twitter.com/xeolabs"
+                            >
+                        Follow @xeolabs</a>
+                    <a href="https://twitter.com/share" style="padding-right:20px" class="twitter-share-button" {count}
+                       data-via="xeolabs" data-hashtags="webgl,xeoengine">Tweet</a>
+
+                    <br><br><br><br>
+
+                    <p class="lead"><a href="https://github.com/xeolabs/xeoengine/archive/master.zip"
+                                       class="btn btn-default btn-lg">Download xeoEngine</a></p>
+
+                    <p class="lead">or <a href="https://github.com/xeolabs/xeoengine">clone the repository</a></p>
+                    <br><br><br>
+
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+<!-- banner end -->
 
-<!-- MAIN CONTENT -->
-<div id="main_content_wrap" class="outer">
-    <section id="main_content" class="inner">
-        <h3>About</h3>
 
-        <ul>
-            <li><strong>xeoEngine</strong> is a WebGL-based 3D visualization engine being developed by <a
-                    href="http://xeolabs.com">@xeoLabs</a></li>
-            <li>Run some demos <a
-                    href="examples/">here</a></li>
-        </ul>
+<!-- section start -->
+<!-- ================ -->
+<div class="section concept clearfix object-non-visible" data-animation-effect="fadeIn">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1 id="concept" class="title"><span>xeoEngine</span> Concept</h1>
 
-        <h3>Features</h3>
+                <div class="space"></div>
+                <div class="row">
+                    <div class="col-md-6">
 
-        <ul>
-            <li>Extensible, component-based scene definition</li>
+                        <h4>API Walkthrough</h4>
 
-            <li>Runtime-editable scene</li>
+                        <p>In this walkthrough we'll create the
+                            spinning torus scene shown in the screenshot below.</p>
 
-            <li>Save and load scene state as JSON</li>
+                        <p>To show how xeoEngine scenes are dynamically editable, we'll
+                            create the scene incrementally: first we'll create the basic torus object, then
+                            set it spinning, and then add texture. </p>
 
-            <li>Defaults for everything</li>
+                        <p>Finally, to show how data-driven xeoEngine is, we'll clone the scene, which
+                            involves serializing and deserializing it as JSON.</p>
+                        <br>
+                        <a href="http://xeoengine.org/examples/#materials_fresnel_specular"><img
+                                src="assets/images/torus.png"></a>
 
-        </ul>
+                        <div class="space"></div>
 
-        <h3>Usage</h3>
+                        <h4>Creating the 3D Scene</h4>
 
-        <p>To start with, include <a href="."
-                                     onclick="javascript:alert('Not released yet!')">xeoengine.min.js</a> in your HTML
-            page:</p>
-        <pre>&lt;script src="http://xeoengine.org/build/xeoengine.min.js"&gt;&lt;/script&gt;</pre>
+                        <p>First, include <a
+                                href="https://cdn.rawgit.com/xeolabs/xeoengine/master/build/xeoengine.min.js">xeoengine.min.js</a>
+                            in your
+                            HTML
+                            page:</p>
+                        <pre>&lt;script src="https://cdn.rawgit.com/xeolabs/xeoengine/master/build/xeoengine.min.js"&gt;&lt;/script&gt;</pre>
 
-        <br>
-        <h5>Creating a 3D scene</h5>
+                        <br>
 
-        <p>Next, define a <a href="./docs/classes/Scene.html">scene</a> as a component-object graph like the one
-            below. Note that a scene is
-            essentially a soup of <a href="./docs/classes/Component.html">components</a> that are tied together into
-            enties by <a href="./docs/classes/GameObject.html">game objects</a>.</p>
+                        <p>Using the JavaScript API, create the 3D scene as a component-object graph, as shown in the
+                            diagram below. Note how a
+                            <a href="./docs/classes/Scene.html" target="_docs">scene</a> is
+                            basically a container of <a href="./docs/classes/Component.html target="
+                                                        _docs"">components</a> that are
+                            tied
+                            together into
+                            enties by <a href="./docs/classes/GameObject.html target=" _docs"">game objects</a>.</p>
 
 <pre class="prettyprint lang-javascript">
 var scene = new XEO.Scene();
@@ -89,8 +259,7 @@ var material = new XEO.PhongMaterial(scene, {
     diffuse: [ 0.6, 0.6, 0.7 ]
 });
 
-// A 2x2x2 box by default
-var geometry = new XEO.Geometry(scene);
+var geometry = new XEO.TorusGeometry(scene);
 
 var object = new XEO.GameObject(scene, {
     material: material,
@@ -98,102 +267,180 @@ var object = new XEO.GameObject(scene, {
 });
 </pre>
 
-        <br>
+                        <br>
 
-        <div style="text-align:center">
-            <img src="http://www.gliffy.com/go/publish/image/7304207/L.png">
-        </div>
+                        <div style="text-align:center">
+                            <img src="http://www.gliffy.com/go/publish/image/7304207/L.png">
+                        </div>
+                        <div class="space"></div>
+                        <h4>Defaults</h4>
 
-        <p>Since xeoEngine provides defaults for everything, we only create what
-            we need to override, in this case the <a href="./docs/classes/PhongMaterial.html">material</a> and <a
-                    href="./docs/classes/Geometry.html">geometry</a>
-            for
-            our game object. The game object will fall back on the scene's
-            default flyweight components
-            (eg. <a href="./docs/classes/Camera.html">camera</a>, <a href="./docs/classes/Lights.html">lights</a> etc)
-            for everything else. As you can see, this keeps the code compact, while flattening the learning curve and
-            making harder to accidentally make scenes that don't render anything.</p>
+                        <p>xeoEngine provides defaults for pretty much everything, which means that we only need to
+                            create things wherever we need to override those defaults. For our game object,
+                            we provided our own <a
+                                    href="./docs/classes/PhongMaterial.html" target="_docs">material</a> and <a
+                                    href="./docs/classes/Geometry.html" target="_docs">geometry</a> components, leaving
+                            the game object
+                            to
+                            fall back on the scene's default flyweight instances for all the other components it needs
+                            (<a href="./docs/classes/Camera.html" target="_docs">camera</a>, <a
+                                    href="./docs/classes/Lights.html" target="_docs">lights</a> etc).</p>
 
-        <h5>Animating</h5>
+                        <div class="space"></div>
+                    </div>
+                    <div class="col-md-6">
+                        <h4>Animating</h4>
 
-        <p>Animate scenes by setting the values of component properties. Almost everything in xeoEngine fires change
-            events which you can subscribe to. This is nice for scripting, and makes it easier to hook in a
-            graphical scene editor.</p>
+                        <p>Animate scenes by updating component properties. Almost everything in xeoEngine
+                            fires change events that you can subscribe to, which is quite handy for scripting.</p>
 
 <pre class="prettyprint lang-javascript">material.on("diffuse",
      function(value) {
-            console.log("Value of material diffuse is now: " + value);
+            console.log("Material diffuse is now: " + value);
      });
 
 // This is going to fire our change listener above
 material.diffuse = [0.9, 0.9, 0.6];</pre>
-        <br>
+                        <br>
 
-        <p>Likewise, you can update properties on any of the scene's default flyweight components, such as the default
-            camera:</p>
-        <pre class="prettyprint lang-javascript">scene.camera.view.eye = [3.0, 2.0, -10.0];</pre>
+                        <p>Likewise, you can update properties on any of the scene's default flyweight components, such
+                            as the
+                            default
+                            camera, which we'll orbit a little bit on each frame:</p>
+                        <pre class="prettyprint lang-javascript">scene.on("tick", function () {
+    var view = scene.camera.view;
+    view.rotateEyeY(0.6);
+    view.rotateEyeX(0.3);
+});</pre>
 
-        <br>
+                        <br>
 
-        <h5>Editing</h5>
+                        <h4>Editing</h4>
 
-        <p>You can edit <span class="emphasis">everything</span> in your scene dynamically, at runtime. Create and
-            destroy components, link or unlink
-            them to each other, update their properties, and so on. Let's add a diffuse <a
-                    href="./docs/classes/Texture.html">texture</a> map to our material, which will immediately appear on
-            our box:</p>
+                        <p>You can edit <span class="emphasis">everything</span> in your scene dynamically, at runtime.
+                            Create and
+                            destroy components, link or unlink
+                            them to each other, update their properties, and so on. Let's add a diffuse <a
+                                    href="./docs/classes/Texture.html" target="_docs">texture</a> map to our material,
+                            which will
+                            immediately
+                            appear on
+                            our torus:</p>
 
-<pre class="prettyprint lang-javascript">var texture = new XEO.Texture(scene, {
-    src: "myTexture.jpg"
-});
+<pre class="prettyprint lang-javascript">material.diffuseMap = new XEO.Texture(scene, {
+    src: "textures/uvGrid2.jpg"
+});</pre>
 
-material.diffuseMap = texture;</pre>
+                        <br>
 
-        <br>
+                        <h4>Saving and Loading</h4>
 
-        <h5>Saving and loading</h5>
-
-        <p>You can save or load a JSON snapshot of your scene at any time. This snippet will dump the whole state of
-            our scene to JSON, then load that JSON again to create a second identical scene:</p>
+                        <p>You can save or load a JSON snapshot of your scene at any time. This snippet will dump the
+                            whole state of
+                            our scene to JSON, then load that JSON again to create a second, identical scene:</p>
 
  <pre class="prettyprint lang-javascript">var json = scene.json;
 
 var scene2 = new XEO.Scene({ json: json });</pre>
-        <br>
+                        <br>
 
-        <p>Find more examples in the <a href="./docs/">API docs</a>.</p>
+                        <h4>Learn More</h4>
 
-    </section>
+                        <ul>
+                            <li><a
+                                    href="http://xeoengine.org/docs" target="_docs">API documentation</a></li>
+                            <li><a
+                                    href="https://github.com/xeolabs/xeoengine/wiki" target="_wiki">Wiki</a></li>
+                            <li><a
+                                    href="http://xeoengine.org/examples/#materials_fresnel_specular" target="_examples">Examples</a>
+                            </li>
+                        </ul>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
 </div>
+<!-- section end -->
 
-<!-- FOOTER  -->
-<div id="footer_wrap" class="outer">
-    <footer class="inner">
-        <p class="copyright">xeoEngine is maintained by <a href="https://github.com/xeolabs">xeoLabs</a></p>
 
-        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
-    </footer>
+<!-- section start -->
+<!-- ================ -->
+<div class="section features">
+    <div id="featureList" class="container object-non-visible" data-animation-effect="fadeIn">
+        <h1 id="features" class="title"><span>xeoEngine</span> Features</h1>
+
+        <div class="space"></div>
+
+        <!-- features get appended here by JS at the end of this page -->
+
+    </div>
 </div>
+<!-- section end -->
 
-<script>
 
-    addPrettify();
+<!-- footer start -->
+<!-- ================ -->
+<footer id="footer">
 
-    function addPrettify() {
-        var els = document.querySelectorAll('pre');
-        for (var i = 0, el; el = els[i]; i++) {
-            if (!el.classList.contains('noprettyprint')) {
-                el.classList.add('prettyprint');
-            }
-        }
-        var el = document.createElement('script');
-        el.type = 'text/javascript';
-        el.src = 'assets/js/prettify.js';
-        el.onload = function () {
-            prettyPrint();
-        };
-        document.body.appendChild(el);
-    }
-</script>
+    <!-- .footer start -->
+    <!-- ================ -->
+    <div class="footer section">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6">
+
+                    <p class="lead"><a href="https://github.com/xeolabs/xeoengine/archive/master.zip"
+                                       class="btn btn-default btn-lg">Download xeoEngine</a></p>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- .footer end -->
+
+    <!-- .subfooter start -->
+    <!-- ================ -->
+    <div class="subfooter">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <p class="text-center">Copyright © 2015 xeoEngine by <a target="_blank" href="http://xeolabs.com">xeoLabs</a>.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- .subfooter end -->
+
+</footer>
+<!-- footer end -->
+
+<!-- JavaScript files placed at the end of the document so the pages load faster
+================================================== -->
+<!-- Jquery and Bootstap core js files -->
+<script type="text/javascript" src="assets/plugins/jquery.min.js"></script>
+<script type="text/javascript" src="assets/bootstrap/js/bootstrap.min.js"></script>
+
+<!-- Modernizr javascript -->
+<script type="text/javascript" src="assets/plugins/modernizr.js"></script>
+
+<!-- Isotope javascript -->
+<script type="text/javascript" src="assets/plugins/isotope/isotope.pkgd.min.js"></script>
+
+<!-- Backstretch javascript -->
+<script type="text/javascript" src="assets/plugins/jquery.backstretch.min.js"></script>
+
+<!-- Appear javascript -->
+<script type="text/javascript" src="assets/plugins/jquery.appear.js"></script>
+
+<!-- Initialization of Plugins -->
+<script type="text/javascript" src="assets/js/template.js"></script>
+
+<!-- Custom Scripts -->
+<script type="text/javascript" src="assets/js/custom.js"></script>
+
 </body>
 </html>
