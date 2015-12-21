@@ -30,7 +30,7 @@
 
     view.eye = [
         -36.588294982910156,
-        173.0135898590088,
+        200.0135898590088,
         2.269908905029297
     ];
     view.look = [
@@ -48,6 +48,14 @@
     // Allow user camera control
 
     new XEO.CameraControl();
+
+    // Slowly spin camera
+
+    saw.scene.on("tick",
+            function () {
+                view.rotateEyeY(0.3);
+                view.rotateEyeX(0.1);
+            });
 
 </script>
 </body>
