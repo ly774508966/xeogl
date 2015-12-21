@@ -97,6 +97,7 @@
     "src/lighting/ambientLight.js",
     "src/lighting/dirLight.js",
     "src/lighting/pointLight.js",
+    "src/importing/_module.js",
     "src/importing/gltf/glTFParser.js",
     "src/importing/gltf/glTFLoaderUtils.js",
     "src/importing/gltf/glTFLoader.js",
