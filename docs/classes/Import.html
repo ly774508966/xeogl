@@ -188,8 +188,41 @@
 
 
 <div class="box intro">
-    <p>An <strong>Import</strong> is a <a href="../classes/Group.html" class="crosslink">Group</a> of Components that are
-loaded from a <a href="https://github.com/KhronosGroup/glTF" target = "_other">glTF</a> file.</p>
+    <p>An <strong>Import</strong> component loads content from a <a href="https://github.com/KhronosGroup/glTF" target = "_other">glTF</a> file.</p>
+<ul><li>An Import component begins loading content into its <a href="../classes/Scene.html" class="crosslink">Scene</a> as soon as it&#39;s <a href="../classes/Import.html#property_src" class="crosslink">src</a>
+property is set to a file path.</li>
+<li>An Import provides all the components it has loaded within a <a href="../classes/Group.html" class="crosslink">Group</a>.</li>
+<li>You can set an Import&#39;s <a href="../classes/Import.html#property_src" class="crosslink">src</a> property to a new file path at any time, causing the Import
+to load components from the new file path (after destroying any components that it had loaded from the previous file path).</li>
+</ul>
+
+<h2 id="example">Example</h2>
+<p>First, create an Import, which immediately loads a glTF model into the default <a href="../classes/Scene.html" class="crosslink">Scene</a>:</p>
+<pre class="code prettyprint"><code class="lang-javascript">var myImport = new XEO.Import({
+   src: "models/gltf/gearbox/gearbox_assy.gltf"
+});
+</code></pre>
+<p>The Import has a <a href="../classes/Group.html" class="crosslink">Group</a> which contains all the components
+it loaded from the glTF file.
+Let&#39;s iterate over the <a href="../classes/Group.html" class="crosslink">Group</a> and log the IDs of the
+<a href="../classes/GameObject.html" class="crosslink">GameObject</a> we find in there:</p>
+<pre class="code prettyprint"><code class="lang-javascript">var group = myImport.group;
+
+group.iterate(function(c) {
+    if (c.type === "XEO.GameObject") {
+        this.log("GameObject found: " + c.id);
+    }
+});
+</code></pre>
+<p>As mentioned earlier, can set the Import to a different file path at any time:</p>
+<pre class="code prettyprint"><code class="lang-javascript">myImport.src = "models/gltf/buggy/buggy.gltf"
+</code></pre>
+<p>Note that the <a href="../classes/Group.html" class="crosslink">Group</a> will now contain a completely different collection of
+components, loaded from this new glTF file.</p>
+<p>Finally, an Import manages the lifecycle of it&#39;s components. When we destroy a Import, all its
+components are destroyed as well:</p>
+<pre class="code prettyprint"><code class="lang-javascript">myImport.destroy();
+</code></pre>
 
 </div>
 
@@ -881,7 +914,7 @@ parent <a href="../classes/Scene.html" class="crosslink">Scene</a>.</p>
                         <div class="meta">
                                     <p>
                                     Defined in
-                            <a href="../files/src_importing_import.js.html#l89"><code>src&#x2F;importing&#x2F;import.js:89</code></a>
+                            <a href="../files/src_importing_import.js.html#l136"><code>src&#x2F;importing&#x2F;import.js:136</code></a>
                             </p>
                     
                     
@@ -1034,7 +1067,7 @@ parent <a href="../classes/Scene.html" class="crosslink">Scene</a>.</p>
                         <div class="meta">
                                     <p>
                                     Defined in
-                            <a href="../files/src_importing_import.js.html#l47"><code>src&#x2F;importing&#x2F;import.js:47</code></a>
+                            <a href="../files/src_importing_import.js.html#l94"><code>src&#x2F;importing&#x2F;import.js:94</code></a>
                             </p>
                     
                     
@@ -1149,7 +1182,7 @@ parent <a href="../classes/Scene.html" class="crosslink">Scene</a>.</p>
                         <div class="meta">
                                     <p>
                                     Defined in
-                            <a href="../files/src_importing_import.js.html#l76"><code>src&#x2F;importing&#x2F;import.js:76</code></a>
+                            <a href="../files/src_importing_import.js.html#l123"><code>src&#x2F;importing&#x2F;import.js:123</code></a>
                             </p>
                     
                     

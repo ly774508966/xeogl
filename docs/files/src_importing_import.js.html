@@ -181,8 +181,55 @@
     var glTFLoader = XEO.GLTFLoader;
 
     /**
-     An **Import** is a {{#crossLink &quot;Group&quot;}}{{/crossLink}} of {{#crossLink &quot;Components&quot;}}{{/crossLink}} that are
-     loaded from a &lt;a href=&quot;https://github.com/KhronosGroup/glTF&quot; target = &quot;_other&quot;&gt;glTF&lt;/a&gt; file.
+     An **Import** component loads content from a &lt;a href=&quot;https://github.com/KhronosGroup/glTF&quot; target = &quot;_other&quot;&gt;glTF&lt;/a&gt; file.
+
+     &lt;ul&gt;&lt;li&gt;An Import component begins loading content into its {{#crossLink &quot;Scene&quot;}}{{/crossLink}} as soon as it&#x27;s {{#crossLink &quot;Import/src:property&quot;}}{{/crossLink}}
+     property is set to a file path.&lt;/li&gt;
+     &lt;li&gt;An Import provides all the components it has loaded within a {{#crossLink &quot;Group&quot;}}{{/crossLink}}.&lt;/li&gt;
+     &lt;li&gt;You can set an Import&#x27;s {{#crossLink &quot;Import/src:property&quot;}}{{/crossLink}} property to a new file path at any time, causing the Import
+     to load components from the new file path (after destroying any components that it had loaded from the previous file path).&lt;/li&gt;
+     &lt;/ul&gt;
+
+     ## Example
+
+     First, create an Import, which immediately loads a glTF model into the default {{#crossLink &quot;Scene&quot;}}{{/crossLink}}:
+
+     &#x60;&#x60;&#x60;&#x60;javascript
+     var myImport = new XEO.Import({
+        src: &quot;models/gltf/gearbox/gearbox_assy.gltf&quot;
+     });
+     &#x60;&#x60;&#x60;&#x60;
+
+     The Import has a {{#crossLink &quot;Group&quot;}}{{/crossLink}} which contains all the components
+     it loaded from the glTF file.
+     Let&#x27;s iterate over the {{#crossLink &quot;Group&quot;}}{{/crossLink}} and log the IDs of the
+     {{#crossLink &quot;GameObject&quot;}}{{/crossLink}} we find in there:
+
+     &#x60;&#x60;&#x60;&#x60;javascript
+     var group = myImport.group;
+
+     group.iterate(function(c) {
+         if (c.type === &quot;XEO.GameObject&quot;) {
+             this.log(&quot;GameObject found: &quot; + c.id);
+         }
+     });
+     &#x60;&#x60;&#x60;&#x60;
+
+     As mentioned earlier, can set the Import to a different file path at any time:
+
+     &#x60;&#x60;&#x60;&#x60;javascript
+     myImport.src = &quot;models/gltf/buggy/buggy.gltf&quot;
+     &#x60;&#x60;&#x60;&#x60;
+
+     Note that the {{#crossLink &quot;Group&quot;}}{{/crossLink}} will now contain a completely different collection of
+     components, loaded from this new glTF file.
+
+     Finally, an Import manages the lifecycle of it&#x27;s components. When we destroy a Import, all its
+     components are destroyed as well:
+
+     &#x60;&#x60;&#x60;&#x60;javascript
+     myImport.destroy();
+     &#x60;&#x60;&#x60;&#x60;
 
      @class Import
      @module XEO

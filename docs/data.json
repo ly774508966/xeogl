@@ -4139,7 +4139,7 @@
             "namespace": "",
             "file": "src/importing/import.js",
             "line": 7,
-            "description": "An **Import** is a {{#crossLink \"Group\"}}{{/crossLink}} of {{#crossLink \"Components\"}}{{/crossLink}} that are\nloaded from a <a href=\"https://github.com/KhronosGroup/glTF\" target = \"_other\">glTF</a> file.",
+            "description": "An **Import** component loads content from a <a href=\"https://github.com/KhronosGroup/glTF\" target = \"_other\">glTF</a> file.\n\n<ul><li>An Import component begins loading content into its {{#crossLink \"Scene\"}}{{/crossLink}} as soon as it's {{#crossLink \"Import/src:property\"}}{{/crossLink}}\nproperty is set to a file path.</li>\n<li>An Import provides all the components it has loaded within a {{#crossLink \"Group\"}}{{/crossLink}}.</li>\n<li>You can set an Import's {{#crossLink \"Import/src:property\"}}{{/crossLink}} property to a new file path at any time, causing the Import\nto load components from the new file path (after destroying any components that it had loaded from the previous file path).</li>\n</ul>\n\n## Example\n\nFirst, create an Import, which immediately loads a glTF model into the default {{#crossLink \"Scene\"}}{{/crossLink}}:\n\n````javascript\nvar myImport = new XEO.Import({\n   src: \"models/gltf/gearbox/gearbox_assy.gltf\"\n});\n````\n\nThe Import has a {{#crossLink \"Group\"}}{{/crossLink}} which contains all the components\nit loaded from the glTF file.\nLet's iterate over the {{#crossLink \"Group\"}}{{/crossLink}} and log the IDs of the\n{{#crossLink \"GameObject\"}}{{/crossLink}} we find in there:\n\n````javascript\nvar group = myImport.group;\n\ngroup.iterate(function(c) {\n    if (c.type === \"XEO.GameObject\") {\n        this.log(\"GameObject found: \" + c.id);\n    }\n});\n````\n\nAs mentioned earlier, can set the Import to a different file path at any time:\n\n````javascript\nmyImport.src = \"models/gltf/buggy/buggy.gltf\"\n````\n\nNote that the {{#crossLink \"Group\"}}{{/crossLink}} will now contain a completely different collection of\ncomponents, loaded from this new glTF file.\n\nFinally, an Import manages the lifecycle of it's components. When we destroy a Import, all its\ncomponents are destroyed as well:\n\n````javascript\nmyImport.destroy();\n````",
             "submodule": "importing",
             "extends": "Component"
         },
@@ -11908,7 +11908,7 @@
         },
         {
             "file": "src/importing/import.js",
-            "line": 47,
+            "line": 94,
             "description": "Path to the glTF file.\n\nFires a {{#crossLink \"Import/src:event\"}}{{/crossLink}} event on change.",
             "itemtype": "property",
             "name": "src",
@@ -11919,7 +11919,7 @@
         },
         {
             "file": "src/importing/import.js",
-            "line": 76,
+            "line": 123,
             "description": "Fired whenever this Import's  {{#crossLink \"GLTF/src:property\"}}{{/crossLink}} property changes.",
             "itemtype": "event",
             "name": "src",
@@ -11935,7 +11935,7 @@
         },
         {
             "file": "src/importing/import.js",
-            "line": 89,
+            "line": 136,
             "description": "{{#crossLink \"Group\"}}{{/crossLink}} containing all the xeoEngine components for this Import.",
             "itemtype": "property",
             "name": "group",
