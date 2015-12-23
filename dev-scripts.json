@@ -101,7 +101,7 @@
     "src/importing/gltf/glTFParser.js",
     "src/importing/gltf/glTFLoaderUtils.js",
     "src/importing/gltf/glTFLoader.js",
-    "src/importing/import.js",
+    "src/importing/model.js",
     "src/materials/_module.js",
     "src/materials/material.js",
     "src/materials/phongMaterial.js",
@@ -133,6 +133,7 @@
     "src/transforms/quaternion.js",
     "src/transforms/scale.js",
     "src/transforms/translate.js",
-    "src/transforms/billboard.js"
+    "src/transforms/billboard.js",
+    "src/transforms/stationary.js"
   ]
 }
