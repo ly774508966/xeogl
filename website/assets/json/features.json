@@ -7,7 +7,7 @@
     "[[Cloneable scene components|components_cloning]]",
     "[[Multiple scenes in a page|scene_multipleScenes]]",
     "[[Performance monitoring|#profiling_statistics]]",
-    "Fast [[ray picking|interaction_picking_triangles_normalAndUV]] for large numbers of dynamic objects"
+    "Hardware-accelerated [[3D picking|interaction_picking_triangles_normalAndUV]] for large numbers of dynamic objects"
   ],
   "Optimizations": [
     "Scene graph dynamically compiled to fast internal render graph",
