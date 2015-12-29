@@ -102,9 +102,11 @@
             this._boundaryObject = new XEO.GameObject(scene, {
                 geometry: new XEO.BoundaryGeometry(scene),
                 material: new XEO.PhongMaterial(scene, {
-                    diffuse: [0.5, 1.0, 0.5],
-                    emissive: [0.5, 1.0, 0.5],
-                    lineWidth: 2
+                    diffuse: [0, 0, 0],
+                    ambient: [0, 0, 0],
+                    specular: [0, 0, 0],
+                    emissive: [1.0, 1.0, 0.6],
+                    lineWidth: 4
                 }),
                 visibility: new XEO.Visibility(scene, {
                     visible: false
@@ -247,7 +249,7 @@
 
                 var input = this.scene.input;
 
-                if (input.keyDown[input.KEY_SHIFT] && e.object) {
+              //  if (input.keyDown[input.KEY_SHIFT] && e.object) {
 
                     // var aabb = e.object.worldBoundary.aabb;
 
@@ -258,7 +260,7 @@
 
                     this.cameraFlight.flyTo({
                             aabb: e.object.worldBoundary.aabb,
-                            offset: [
+                            oXffset: [
                                 pos[0] - center[0],
                                 pos[1] - center[1],
                                 pos[2] - center[2]
@@ -266,18 +268,18 @@
                         },
                         this._hideObjectBoundary, this);
 
-                } else {
-
-                    this.cameraFlight.flyTo({
-                            look: pos,
-                            eye: [
-                                pos[0] + diff[0],
-                                pos[1] + diff[1],
-                                pos[2] + diff[2]
-                            ]
-                        },
-                        this._hideObjectBoundary, this);
-                }
+                //} else {
+                //
+                //    this.cameraFlight.flyTo({
+                //            look: pos,
+                //            eye: [
+                //                pos[0] + diff[0],
+                //                pos[1] + diff[1],
+                //                pos[2] + diff[2]
+                //            ]
+                //        },
+                //        this._hideObjectBoundary, this);
+                //}
             }
         },
 
@@ -407,9 +409,7 @@
                      * @param value The property's new value
                      */
                     this.fire('active', this._active = value);
-                }
-
-                ,
+                },
 
                 get: function () {
                     return this._active;
@@ -437,6 +437,7 @@
 
             this.active = false;
 
+            // FIXME: Does not recursively destroy child components
             this._boundaryObject.destroy();
 
             this.keyboardAxis.destroy();

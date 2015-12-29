@@ -14,56 +14,112 @@
         }
     </style>
 
-    <script src="../build/xeoengine.min.js"></script>
+    <script src="../build/xeoengine.js"></script>
     <link href="css/styles.css" rel="stylesheet"/>
 
 <body>
 
 <div id="infoLight">
     <a href="http://xeoengine.org" target="_other">xeoEngine</a><br><br>
-    <pre id="infoTxt" style="text-align: left; "></pre>
+    Visualizing a <a href="../docs/classes/GameObject.html" target="_other">GameObject's</a> Canvas-space <a
+        href="../docs/classes/Boundary2D.html" target="_other">boundary</a> as we animate the GameObject's modeling transforms
+
+    <pre id="infoTxt" style="text-align: left; color:#77FF77; border:0;"></pre>
 </div>
 
 <script>
 
     new XEO.CameraControl();
 
-    var object = new XEO.GameObject({
+    // ------------------------------------------------------------------
+    // Create a tumbling red torus
+    // ------------------------------------------------------------------
+
+    // Save references to a couple of rotations within
+    // its transform hierarchy
+
+    var rotate0;
+    var rotate1;
+
+    var torus = new XEO.GameObject({
+
+        geometry: new XEO.TorusGeometry({
+            radius: 1.0,
+            tube: 0.3
+        }),
+
         material: new XEO.PhongMaterial({
             diffuse: [1, 0.3, 0.3]
+        }),
+
+        transform: new XEO.Scale({
+            xyz: [0.5, 0.5, 0.5],
+
+            parent: rotate1 = new XEO.Rotate({
+                xyz: [1, 1, 0],
+                angle: 45,
+
+                parent: new XEO.Rotate({
+                    xyz: [1, 0, 1],
+                    angle: 25,
+
+                    parent: new XEO.Translate({
+                        xyz: [5, 0, 0],
+
+                        parent: rotate0 = new XEO.Rotate({
+                            xyz: [0, 0, 1],
+                            angle: 40
+                        })
+                    })
+                })
+            })
         })
     });
 
-    createDiv(object.canvasBoundary);
 
-    function createDiv(canvasBoundary) {
+    // ------------------------------------------------------------------
+    // Animate the torus' tumbling rotations
+    // ------------------------------------------------------------------
 
-        var body = document.getElementsByTagName("body")[0];
-        var div = document.createElement('div');
+    var a = 0;
 
-        var style = div.style;
-        style.position = "absolute";
-        style.padding = "10px";
-        style.margin = "0";
-        style.background = "green";
-        style.opacity = 0.4;
-        style["z-index"] = "1000";
+    rotate1.scene.on("tick",
+            function () {
+                rotate0.angle = a * 0.1;
+                rotate1.angle = a += 4;
+            });
 
-        body.appendChild(div);
 
-        canvasBoundary.on("updated",
-                function () {
+    // ------------------------------------------------------------------
+    // Indicate the extents of the torus' Canvas-space axis-aligned
+    // bounding box with a DIV    
+    // ------------------------------------------------------------------
 
-                    var aabb = canvasBoundary.aabb;
+    var body = document.getElementsByTagName("body")[0];
+    var div = document.createElement('div');
 
-                    div.style.left = aabb.min[0] + "px";
-                    div.style.top = aabb.min[1] + "px";
-                    div.style.width = (aabb.max[0] - aabb.min[0]) + "px";
-                    div.style.height = (aabb.max[1] - aabb.min[1]) + "px";
+    var style = div.style;
+    style.position = "absolute";
+    style.padding = "0";
+    style.margin = "0";
+    style.border = "3px solid #99FF99";
+    style["z-index"] = "1000";
 
-                    log("object.canvasBoundary.aabb", canvasBoundary.aabb);
-                });
-    }
+    body.appendChild(div);
+
+    torus.canvasBoundary.on("updated",
+            function () {
+
+                var aabb = torus.canvasBoundary.aabb;
+
+                div.style.left = aabb.min[0] + "px";
+                div.style.top = aabb.min[1] + "px";
+                div.style.width = (aabb.max[0] - aabb.min[0]) + "px";
+                div.style.height = (aabb.max[1] - aabb.min[1]) + "px";
+
+                log("torus.canvasBoundary.aabb", torus.canvasBoundary.aabb);
+            });
+
 
     function log(event, params) {
         var str = event + " = " + JSON.stringify(params, "\n", 4);
