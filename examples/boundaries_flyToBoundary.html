@@ -143,7 +143,7 @@
 
                 var lastHandler;// Subscribes to the Canvas AABB of the object we're flying to, so we can dynamically update the blue box
 
-                setInterval(function () {
+                function flyToObject() {
 
                             if (lastObject) {
                                 lastObject.modes.transparent = true;
@@ -183,7 +183,11 @@
                                     });
 
                             lastObject = nextObject;
-                        },
+                        }
+                
+                flyToObject();
+                
+                setInterval(flyToObject,
                         6000);
             });
 
