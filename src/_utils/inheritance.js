@@ -79,6 +79,13 @@
                 })(name, prop[name]) : prop[name];
         }
 
+        if (prop.type) {
+
+            // Create array of type names to indicate inheritance chain,
+            // to support "isType" queries on components
+            prototype.types = _super.types ? _super.types.concat(prop.type) : [prop.type];
+        }
+
         // The dummy class constructor
         function Class() {
 
