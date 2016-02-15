@@ -182,6 +182,7 @@
 
             var i;
             var len;
+            var light;
 
             begin();
 
@@ -216,7 +217,7 @@
                 // Lights
                 for (i = 0, len = states.lights.lights.length; i < len; i++) {
 
-                    var light = states.lights.lights[i];
+                    light = states.lights.lights[i];
 
                     if (light.type === "ambient") {
                         continue;
@@ -345,7 +346,7 @@
 
                 // Lights
 
-                for (var i = 0; i < states.lights.lights.length; i++) {
+                for (i = 0, len = states.lights.lights.length; i < len; i++) {
 
                     light = states.lights.lights[i];
 
@@ -462,6 +463,11 @@
                 return fragment;
             }
 
+            var i;
+            var len;
+
+            var light;
+
             begin();
 
             add("precision " + getFSFloatPrecision(states._canvas.gl) + " float;");
@@ -566,9 +572,7 @@
 
                 // Light sources
 
-                var light;
-
-                for (var i = 0; i < states.lights.lights.length; i++) {
+                for (i = 0, len = states.lights.lights.length; i < len; i++) {
 
                     light = states.lights.lights[i];
 
@@ -798,9 +802,7 @@
                 add("   float lightDist;");
                 add("   float attenuation;");
 
-                var light;
-
-                for (var i = 0, len = states.lights.lights.length; i < len; i++) {
+                for (i = 0, len = states.lights.lights.length; i < len; i++) {
 
                     light = states.lights.lights[i];
 

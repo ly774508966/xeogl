@@ -1,8 +1,8 @@
 # xeoEngine
 
-xeo [zee-oh] - "Innovative ideas that have yet to be discovered" - [*Urban Dictionary*](http://www.urbandictionary.com/define.php?term=Xeo)
-
 [http://xeoengine.org](http://xeoengine.org)
+
+[![Codacy Badge](https://api.codacy.com/project/badge/grade/a834272d6bf448f7a77947d7b784f261)](https://www.codacy.com/app/lindsay-kay/xeoengine)
 
 ## About
 
@@ -11,7 +11,7 @@ comprehensive [object-component-based](http://gameprogrammingpatterns.com/compon
 
 This engine is based on lessons learned from the development and application of [SceneJS](http://scenejs.org).
 
-It's currently at **alpha** status, so stuff will change.
+It's currently at **beta** status, so stuff will change.
 
 ## Resources 
 

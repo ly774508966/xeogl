@@ -532,7 +532,6 @@
 
         var lights = state.lights;
         var light;
-        var intensity;
 
         for (var i = 0, len = lights.length; i < len; i++) {
 
@@ -689,7 +688,10 @@
         this._lastDrawChunkId = this._lastDrawChunkId || [];
         this._lastPickObjectChunkId = this._lastPickObjectChunkId || [];
 
-        for (var i = 0; i < 20; i++) {
+        var i;
+        var len;
+
+        for (i = 0; i < 20; i++) {
             this._lastDrawChunkId[i] = null;
             this._lastPickObjectChunkId[i] = null;
         }
@@ -718,7 +720,7 @@
         this._objectDrawListLen = 0;
         this._objectPickListLen = 0;
 
-        for (var i = 0, len = this._objectListLen; i < len; i++) {
+        for (i = 0, len = this._objectListLen; i < len; i++) {
 
             object = this._objectList[i];
 
@@ -802,7 +804,7 @@
         var pickable;
         var renderTargetBound = false;
 
-        for (var i = 0, len = targetListList.length; i < len; i++) {
+        for (i = 0, len = targetListList.length; i < len; i++) {
 
             targetChunk = targetList[i];
             list = targetListList[i];
@@ -834,7 +836,7 @@
 
         // Append chunks for objects not in render targets
 
-        for (var i = 0, len = this._objectDrawListLen; i < len; i++) {
+        for (i = 0, len = this._objectDrawListLen; i < len; i++) {
 
             object = this._objectDrawList[i];
 
@@ -867,8 +869,9 @@
      */
     XEO.renderer.Renderer.prototype._appendObjectToDrawChunkLists = function (object, pickable) {
 
+        pickable = pickable && object.modes.pickable;
+
         var chunks = object.chunks;
-        var pickable = pickable && object.modes.pickable;
         var chunk;
 
         for (var i = 0, len = chunks.length; i < len; i++) {

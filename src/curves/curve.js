@@ -6,10 +6,10 @@
  The Curve is subclassed by the following component types:
 
  <ul>
-    <li>{{#crossLink "SplineCurve"}}{{/crossLink}}</li>
-    <li>{{#crossLink "CubicBezierCurve"}}{{/crossLink}}</li>
-    <li>{{#crossLink "QuadraticBezierCurve"}}{{/crossLink}}</li>
-    <li>{{#crossLink "Path"}}{{/crossLink}}</li>
+ <li>{{#crossLink "SplineCurve"}}{{/crossLink}}</li>
+ <li>{{#crossLink "CubicBezierCurve"}}{{/crossLink}}</li>
+ <li>{{#crossLink "QuadraticBezierCurve"}}{{/crossLink}}</li>
+ <li>{{#crossLink "Path"}}{{/crossLink}}</li>
  </u>
 
  @class Curve
@@ -89,7 +89,7 @@
 
                 get: function () {
 
-                  return this.getTangent(this._t);
+                    return this.getTangent(this._t);
                 }
             },
 
@@ -113,12 +113,16 @@
          * @param {Number} t Position to get tangent at.
          * @returns {{Array of Number}} Normalized tangent vector
          */
-        getTangent: function(t) {
+        getTangent: function (t) {
 
             var delta = 0.0001;
 
-            var t1 = this._t - delta;
-            var t2 = this._t + delta;
+            if (t === undefined) {
+                t = this._t;
+            }
+
+            var t1 = t - delta;
+            var t2 = t + delta;
 
             if (t1 < 0) {
                 t1 = 0;
@@ -190,7 +194,7 @@
             }
 
             if (this.cacheArcLengths
-                && ( this.cacheArcLengths.length == divisions + 1 )
+                && ( this.cacheArcLengths.length === divisions + 1 )
                 && !this.needsUpdate) {
 
                 return this.cacheArcLengths;
@@ -233,7 +237,9 @@
 
             var arcLengths = this._getLengths();
 
-            var i = 0, il = arcLengths.length;
+            var i = 0;
+            var il = arcLengths.length;
+            var t;
 
             var targetArcLength; // The targeted u distance value to get
 
@@ -279,9 +285,10 @@
 
             //console.log('b' , i, low, high, Date.now()- time);
 
-            if (arcLengths[i] == targetArcLength) {
+            if (arcLengths[i] === targetArcLength) {
 
-                var t = i / ( il - 1 );
+                t = i / ( il - 1 );
+
                 return t;
 
             }
@@ -299,7 +306,7 @@
 
             // add that fractional amount to t
 
-            var t = ( i + segmentFraction ) / ( il - 1 );
+            t = ( i + segmentFraction ) / ( il - 1 );
 
             return t;
         }

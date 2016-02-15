@@ -1516,9 +1516,11 @@
 
             var component;
 
+            var fullShareId;
+
             if (instanceId !== undefined) {
 
-                var fullShareId = "__shared." + type + "." + instanceId;
+                fullShareId = "__shared." + type + "." + instanceId;
 
                 component = this._sharedComponents[fullShareId];
 
@@ -1608,7 +1610,7 @@
 
             var countCompiledEntities = 0;
 
-            var time1 = Date.now();
+            //var time1 = Date.now();
             var entity;
 
             for (var id in this._dirtyEntities) {
@@ -1654,7 +1656,6 @@
 
             var components = [];
             var component;
-            var priorities = [];
 
             for (var id in this.components) {
                 if (this.components.hasOwnProperty(id)) {

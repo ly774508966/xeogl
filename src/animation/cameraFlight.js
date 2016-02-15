@@ -174,7 +174,11 @@
 
             if (!camera) {
                 if (callback) {
-                    scope ? callback.call(scope) : callback();
+                    if (scope) {
+                        callback.call(scope);
+                    } else {
+                        callback();
+                    }
                 }
                 return;
             }
@@ -202,6 +206,7 @@
             var eye;
             var look;
             var up;
+            var componentId;
 
             if (params.worldBoundary) {
 
@@ -215,7 +220,7 @@
 
                 // Argument is a Boundary3D
 
-            } else if (params.min != undefined && params.max != undefined) {
+            } else if (params.min !== undefined && params.max !== undefined) {
 
                 // Argument is an AABB
 
@@ -237,7 +242,7 @@
 
                 if (XEO._isNumeric(component) || XEO._isString(component)) {
 
-                    var componentId = component;
+                    componentId = component;
 
                     component = this.scene.components[componentId];
 
