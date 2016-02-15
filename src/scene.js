@@ -358,7 +358,7 @@
 
                 var componentJSON;
                 var type;
-                var constructor;
+                var constr;
 
                 for (var i = 0, len = componentJSONs.length; i < len; i++) {
 
@@ -367,10 +367,10 @@
 
                     if (type) {
 
-                        constructor = window[type];
+                        constr = window[type];
 
-                        if (constructor) {
-                            new constructor(this, componentJSON);
+                        if (constr) {
+                            new constr(this, componentJSON);
                         }
                     }
                 }
@@ -384,29 +384,31 @@
 
         _initDefaults: function () {
 
-            // Create this Scene's default components, which every
-            // Entity created in this Scene will inherit by default
+            // Call this Scene's property accessors to lazy-init their properties
 
-            this.view;
-            this.project;
-            this.camera;
-            this.clips;
-            this.colorTarget;
-            this.colorBuf;
-            this.depthTarget;
-            this.depthBuf;
-            this.visibility;
-            this.modes;
-            this.geometry;
-            this.layer;
-            this.lights;
-            this.material;
-            this.morphTargets;
-            this.reflect;
-            this.shader;
-            this.shaderParams;
-            this.stage;
-            this.transform;
+            var dummy; // Keeps Codacy happy
+
+            dummy = this.view;
+            dummy = this.project;
+            dummy = this.camera;
+            dummy = this.clips;
+            dummy = this.colorTarget;
+            dummy = this.colorBuf;
+            dummy = this.depthTarget;
+            dummy = this.depthBuf;
+            dummy = this.visibility;
+            dummy = this.cull;
+            dummy = this.modes;
+            dummy = this.geometry;
+            dummy = this.layer;
+            dummy = this.lights;
+            dummy = this.material;
+            dummy = this.morphTargets;
+            dummy = this.reflect;
+            dummy = this.shader;
+            dummy = this.shaderParams;
+            dummy = this.stage;
+            dummy = this.transform;
         },
 
         // Called by each component that is created with this Scene as parent.
@@ -818,6 +820,29 @@
                             id: "default.visibility",
                             isDefault: true,
                             visible: true
+                        });
+                }
+            },
+
+            /**
+             * The default {{#crossLink "Cull"}}{{/crossLink}} provided by this Scene.
+             *
+             * This {{#crossLink "Cull"}}cull{{/crossLink}} has an {{#crossLink "Component/id:property"}}id{{/crossLink}} equal to "default.cull",
+             * with all other properties initialised to their default values.
+             *
+             * {{#crossLink "Entity"}}Entities{{/crossLink}} within this Scene are attached to this
+             * {{#crossLink "Cull"}}{{/crossLink}} by default.
+             * @property cull
+             * @final
+             * @type cull
+             */
+            cull: {
+                get: function () {
+                    return this.components["default.cull"] ||
+                        new XEO.Cull(this, {
+                            id: "default.cull",
+                            isDefault: true,
+                            culled: false
                         });
                 }
             },

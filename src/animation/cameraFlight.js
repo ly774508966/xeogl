@@ -203,13 +203,15 @@
             var look;
             var up;
 
-            if (worldBoundary = params.worldBoundary) {
+            if (params.worldBoundary) {
 
                 // Argument is a Component subtype with a worldBoundary
 
-                aabb = worldBoundary.aabb;
+                aabb = params.worldBoundary.aabb;
 
-            } else if (aabb = params.aabb) {
+            } else if (params.aabb) {
+
+                aabb = params.aabb;
 
                 // Argument is a Boundary3D
 
@@ -242,7 +244,11 @@
                     if (!component) {
                         this.error("Component not found: " + XEO._inQuotes(componentId));
                         if (callback) {
-                            scope ? callback.call(scope) : callback();
+                            if (scope) {
+                                callback.call(scope);
+                            } else {
+                                callback();
+                            }
                         }
                         return;
                     }
@@ -253,7 +259,11 @@
                 if (!worldBoundary) {
                     this.error("Can't fly to component " + XEO._inQuotes(componentId) + " - does not have a worldBoundary");
                     if (callback) {
-                        scope ? callback.call(scope) : callback();
+                        if (scope) {
+                            callback.call(scope);
+                        } else {
+                            callback();
+                        }
                     }
                     return;
                 }
@@ -376,8 +386,14 @@
             var callback = this._callback;
 
             if (callback) {
+
                 this._callback = null;
-                this._callbackScope ? callback.call(this._callbackScope) : callback();
+
+                if (this._callbackScope) {
+                    callback.call(this._callbackScope);
+                } else {
+                    callback();
+                }
             }
 
             this.fire("stopped", true, true);

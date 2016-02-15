@@ -141,6 +141,13 @@
         this.visibility = null;
 
         /**
+         Culling render state.
+         @property cull
+         @type {renderer.Cull}
+         */
+        this.cull = null;
+
+        /**
          Modes render state.
          @property modes
          @type {renderer.Modes}
@@ -383,6 +390,7 @@
         object.reflect = this.reflect;
         object.geometry = this.geometry;
         object.visibility = this.visibility;
+        object.cull = this.cull;
         object.modes = this.modes;
         object.billboard = this.billboard;
         object.stationary = this.stationary;
@@ -714,7 +722,13 @@
 
             object = this._objectList[i];
 
-            // Cull invisible objects
+            // Skip culled objects
+
+            if (object.cull.culled === true) {
+                continue;
+            }
+
+            // Skip invisible objects
 
             if (object.visibility.visible === false) {
                 continue;
@@ -1071,6 +1085,8 @@
     XEO.renderer.Renderer.prototype._doDrawList = function (params) {
 
         var gl = this._canvas.gl;
+        var i;
+        var len;
 
         var ambient = this._ambient;
         var ambientColor;
@@ -1135,7 +1151,7 @@
 
             // Pick an object
 
-            for (var i = 0, len = this._pickObjectChunkListLen; i < len; i++) {
+            for (i = 0, len = this._pickObjectChunkListLen; i < len; i++) {
                 this._pickObjectChunkList[i].pickObject(frameCtx);
             }
 
@@ -1148,7 +1164,7 @@
                 var chunks = params.object.chunks;
                 var chunk;
 
-                for (var i = 0, len = chunks.length; i < len; i++) {
+                for (i = 0, len = chunks.length; i < len; i++) {
                     chunk = chunks[i];
                     if (chunk.pickPrimitive) {
                         chunk.pickPrimitive(frameCtx);
@@ -1162,7 +1178,7 @@
 
             var startTime = (new Date()).getTime();
 
-            for (var i = 0, len = this._drawChunkListLen; i < len; i++) {
+            for (i = 0, len = this._drawChunkListLen; i < len; i++) {
                 this._drawChunkList[i].draw(frameCtx);
             }
 
