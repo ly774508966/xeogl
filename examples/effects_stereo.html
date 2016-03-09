@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>xeoEngine Example</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+
+    <script src="../build/xeoengine.js"></script>
+    <script src="js/entities/gridBox.js"></script>
+    <link href="css/styles.css" rel="stylesheet"/>
+
+<body>
+
+<div id="infoLight">
+    <a href="http://xeoengine.org" target="_home">xeoEngine</a><br><br>rotating a <a
+        href="../docs/classes/Camera.html"
+        target="_docs">Camera</a> on each <a
+        href="../docs/classes/Scene.html" target="_docs">Scene</a> "tick" event
+</div>
+
+<script>
+
+    //- Create scene content ------------------------------------------------------------------------------------------
+
+    // We'll use an explicitly-created Scene for this demo
+    var scene = new XEO.Scene();
+
+    // A gearbox model imported from glTF
+    var gearbox = new XEO.Model(scene, {
+        src: "models/gltf/gearbox/gearbox_assy.gltf"
+    });
+
+    // Add a background grid box
+    new XEO.GridBox(scene, {
+        size: [10, 10, 10],
+        pos: [184.21, 10.54, -7.03]
+    });
+
+    //- Set up camera movement -----------------------------------------------------------------------------------------
+
+    // Allow user camera control
+    new XEO.CameraControl(scene);
+
+    // Set initial camera position
+    var view = scene.camera.view;
+
+    view.eye = [184.21, 10.54, -7.03];
+    view.look = [159.20, 17.02, 3.21];
+    view.up = [-0.15, 0.97, 0.13];
+
+    // Slowly orbit camera about model
+    scene.on("tick",
+            function () {
+                view.rotateEyeY(0.15);
+                view.rotateEyeX(0.05);
+            });
+
+    //- Set up stereo rendering ----------------------------------------------------------------------------------------
+
+    scene.passes = 2;
+
+    var saveEye;
+    var saveBoundary;
+
+    // Intercept before render
+    scene.on("rendering",
+            function (params) {
+
+                switch (params.pass) {
+                    case 0:
+
+                        // Rendering for first pass
+
+                        saveEye = scene.camera.view.eye.slice();
+                        saveBoundary = scene.viewport.boundary.slice();
+
+                        //  scene.camera.view.eye = [saveEye[0] - 10, saveEye[1], saveEye[2]];
+                        scene.viewport.autoBoundary = false;
+                        scene.viewport.boundary = [saveBoundary[0], saveBoundary[1], saveBoundary[2] / 2, saveBoundary[3]];
+
+                        break;
+
+                    case 1:
+
+                        // Rendering for second pass
+
+                        //   scene.camera.view.eye = [saveEye[0] + 10, saveEye[1], saveEye[2]];
+                        scene.viewport.boundary = [saveBoundary[2] / 2, saveBoundary[1], saveBoundary[2] / 2, saveBoundary[3]];
+                        break;
+                }
+            });
+
+    // Intercept after render
+    scene.on("rendered",
+            function (params) {
+
+                if (params.pass === 1) {
+
+                    // Rendered second pass
+
+                    scene.camera.view.eye = saveEye;
+                    scene.viewport.boundary = saveBoundary;
+                    //scene.viewport.autoBoundary = true;
+                }
+            });
+
+</script>
+</body>
+</html>
