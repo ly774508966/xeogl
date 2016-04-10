@@ -252,13 +252,6 @@
                         self._buildPickVBOs();
                     }
                     return self._pickColors;
-                },
-
-                getPickIndices: function () {
-                    if (self._pickVBOsDirty) {
-                        self._buildPickVBOs();
-                    }
-                    return self._pickIndices;
                 }
             });
 
@@ -281,7 +274,6 @@
             this._tangents = null;
             this._pickPositions = null;
             this._pickColors = null;
-            this._pickIndices = null;
 
             // Flags for work pending
 
@@ -456,7 +448,7 @@
                     memoryStats.positions -= this._state.positions.numItems;
                     this._state.positions.destroy();
                 }
-                this._state.positions = this._positionsData ? new XEO.renderer.webgl.ArrayBuffer(gl, gl.ARRAY_BUFFER, new Float32Array(this._positionsData), this._positionsData.length, 3, usage) : null;
+                this._state.positions = this._positionsData ? new XEO.renderer.webgl.ArrayBuffer(gl, gl.ARRAY_BUFFER, this._positionsData, this._positionsData.length, 3, usage) : null;
                 if (this._state.positions) {
                     memoryStats.positions += this._state.positions.numItems;
                 }
@@ -472,7 +464,7 @@
                     memoryStats.colors -= this._state.colors.numItems;
                     this._state.colors.destroy();
                 }
-                this._state.colors = this._colorsData ? new XEO.renderer.webgl.ArrayBuffer(gl, gl.ARRAY_BUFFER, new Float32Array(this._colorsData), this._colorsData.length, 4, usage) : null;
+                this._state.colors = this._colorsData ? new XEO.renderer.webgl.ArrayBuffer(gl, gl.ARRAY_BUFFER, this._colorsData, this._colorsData.length, 4, usage) : null;
                 if (this._state.colors) {
                     memoryStats.colors += this._state.colors.numItems;
                 }
@@ -491,7 +483,7 @@
                     this._normalsData = XEO.math.buildNormals(this._positionsData, this._indicesData);
                 }
 
-                this._state.normals = this._normalsData ? new XEO.renderer.webgl.ArrayBuffer(gl, gl.ARRAY_BUFFER, new Float32Array(this._normalsData), this._normalsData.length, 3, usage) : null;
+                this._state.normals = this._normalsData ? new XEO.renderer.webgl.ArrayBuffer(gl, gl.ARRAY_BUFFER, this._normalsData, this._normalsData.length, 3, usage) : null;
                 if (this._state.normals) {
                     memoryStats.normals += this._state.normals.numItems;
                 }
@@ -508,7 +500,7 @@
                     memoryStats.uvs -= this._state.uv.numItems;
                     this._state.uv.destroy();
                 }
-                this._state.uv = this._uvData ? new XEO.renderer.webgl.ArrayBuffer(gl, gl.ARRAY_BUFFER, new Float32Array(this._uvData), this._uvData.length, 2, usage) : null;
+                this._state.uv = this._uvData ? new XEO.renderer.webgl.ArrayBuffer(gl, gl.ARRAY_BUFFER, this._uvData, this._uvData.length, 2, usage) : null;
                 if (this._state.uv) {
                     memoryStats.uvs += this._state.uv.numItems;
                 }
@@ -525,7 +517,8 @@
                     memoryStats.indices -= this._state.indices.numItems;
                     this._state.indices.destroy();
                 }
-                this._state.indices = this._indicesData ? new XEO.renderer.webgl.ArrayBuffer(gl, gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(this._indicesData), this._indicesData.length, 1, usage) : null;
+
+                this._state.indices = this._indicesData ? new XEO.renderer.webgl.ArrayBuffer(gl, gl.ELEMENT_ARRAY_BUFFER, this._indicesData, this._indicesData.length, 1, usage) : null;
                 if (this._state.indices) {
                     memoryStats.indices += this._state.indices.numItems;
                 }
@@ -570,7 +563,7 @@
             var usage = gl.STATIC_DRAW;
 
             this._tangents = this._tangentsData ?
-                new XEO.renderer.webgl.ArrayBuffer(gl, gl.ARRAY_BUFFER, new Float32Array(this._tangentsData), this._tangentsData.length, 3, usage) : null;
+                new XEO.renderer.webgl.ArrayBuffer(gl, gl.ARRAY_BUFFER, this._tangentsData, this._tangentsData.length, 3, usage) : null;
 
             if (this._tangents) {
                 memoryStats.tangents += this._tangents.numItems;
@@ -599,19 +592,16 @@
 
                 var arrays = XEO.math.getPickPrimitives(this._positionsData, this._indicesData);
 
-                var pickPositions = arrays.pickPositions;
-                var pickColors = arrays.pickColors;
-                var pickIndices = arrays.pickIndices;
+                var pickPositions = arrays.positions;
+                var pickColors = arrays.colors;
 
-                this._pickPositions = new XEO.renderer.webgl.ArrayBuffer(gl, gl.ARRAY_BUFFER, new Float32Array(pickPositions), pickPositions.length, 3, usage);
-                this._pickColors = new XEO.renderer.webgl.ArrayBuffer(gl, gl.ARRAY_BUFFER, new Float32Array(pickColors), pickColors.length, 4, usage);
-                this._pickIndices = new XEO.renderer.webgl.ArrayBuffer(gl, gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(pickIndices), pickIndices.length, 1, usage);
+                this._pickPositions = new XEO.renderer.webgl.ArrayBuffer(gl, gl.ARRAY_BUFFER, pickPositions, pickPositions.length, 3, usage);
+                this._pickColors = new XEO.renderer.webgl.ArrayBuffer(gl, gl.ARRAY_BUFFER, pickColors, pickColors.length, 4, usage);
 
                 var memoryStats = XEO.stats.memory;
 
                 memoryStats.positions += this._pickPositions.numItems;
                 memoryStats.colors += this._pickColors.numItems;
-                memoryStats.indices += this._pickIndices.numItems;
             }
 
             this._pickVBOsDirty = false;
@@ -631,12 +621,6 @@
                 this._pickColors.destroy();
                 memoryStats.colors -= this._pickColors.numItems;
                 this._pickColors = null;
-            }
-
-            if (this._pickIndices) {
-                this._pickIndices.destroy();
-                memoryStats.indices -= this._pickIndices.numItems;
-                this._pickIndices = null;
             }
 
             this._pickVBOsDirty = true;
@@ -754,7 +738,7 @@
              *
              * @property positions
              * @default null
-             * @type {Array of Number}
+             * @type Float32Array
              */
             positions: {
 
@@ -762,6 +746,10 @@
 
                     // Only recompile when adding or removing this property, not when modifying
                     var dirty = (!this._positionsData !== !value);
+
+                    if (value && value.constructor != Float32Array) {
+                        value = new Float32Array(value);
+                    }
 
                     this._positionsData = value;
                     this._positionsDirty = true;
@@ -812,7 +800,7 @@
              *
              * @property normals
              * @default null
-             * @type {Array of Number}
+             * @type Float32Array
              */
             normals: {
 
@@ -820,6 +808,10 @@
 
                     // Only recompile when adding or removing this property, not when modifying
                     var dirty = (!this._normalsData !== !value);
+
+                    if (value && value.constructor != Float32Array) {
+                        value = new Float32Array(value);
+                    }
 
                     this._normalsData = value;
                     this._normalsDirty = true;
@@ -858,7 +850,7 @@
              *
              * @property uv
              * @default null
-             * @type {Array of Number}
+             * @type Float32Array
              */
             uv: {
 
@@ -866,6 +858,10 @@
 
                     // Only recompile when adding or removing this property, not when modifying
                     var dirty = (!this._uvData !== !value);
+
+                    if (value && value.constructor != Float32Array) {
+                        value = new Float32Array(value);
+                    }
 
                     this._uvData = value;
                     this._uvDirty = true;
@@ -904,7 +900,7 @@
              *
              * @property colors
              * @default null
-             * @type {Array of Number}
+             * @type Float32Array
              */
             colors: {
 
@@ -912,6 +908,10 @@
 
                     // Only recompile when adding or removing this property, not when modifying
                     var dirty = (!this._colorsData !== !value);
+
+                    if (value && value.constructor != Float32Array) {
+                        value = new Float32Array(value);
+                    }
 
                     this._colorsData = value;
                     this._colorsDirty = true;
@@ -946,11 +946,14 @@
             /**
              * The Geometry's indices array.
              *
+             * If ````XEO.WEBGL_INFO.SUPPORTED_EXTENSIONS["OES_element_index_uint"]```` is true, then this can be
+             * a ````Uint32Array````, otherwise it needs to be a ````Uint16Array````.
+             *
              * Fires a {{#crossLink "Geometry/indices:event"}}{{/crossLink}} event on change.
              *
              * @property indices
              * @default null
-             * @type {Array of Number}
+             * @type Uint16Array | Uint32Array
              */
             indices: {
 
@@ -958,6 +961,22 @@
 
                     // Only recompile when adding or removing this property, not when modifying
                     var dirty = (!this._indicesData && !value);
+
+                    if (value) {
+
+                        var bigIndicesSupported = XEO.WEBGL_INFO.SUPPORTED_EXTENSIONS["OES_element_index_uint"];
+
+                        if (!bigIndicesSupported && value.constructor === Uint32Array) {
+                            this.error("This WebGL implementation does not support Uint32Array");
+                            return;
+                        }
+
+                        var IndexArrayType = bigIndicesSupported ? Uint32Array : Uint16Array;
+
+                        if (value.constructor != Uint16Array && value.constructor != Uint32Array) {
+                            value = new IndexArrayType(value);
+                        }
+                    }
 
                     this._indicesData = value;
                     this._indicesDirty = true;
@@ -1246,10 +1265,6 @@
 
             if (this._pickColors) {
                 this._pickColors.destroy();
-            }
-
-            if (this._pickIndices) {
-                this._pickIndices.destroy();
             }
 
             // Destroy boundary
