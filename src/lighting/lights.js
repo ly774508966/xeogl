@@ -1,15 +1,18 @@
 /**
  A **Lights** defines a group of light sources that illuminate attached {{#crossLink "Entity"}}Entities{{/crossLink}}.
 
- A Lights may contain a virtually unlimited number of three types of light source:
+ A Lights may contain a virtually unlimited number of four types of light source:
 
  <ul>
  <li>{{#crossLink "AmbientLight"}}AmbientLight{{/crossLink}}s, which are fixed-intensity and fixed-color, and
  affect all the {{#crossLink "Entity"}}Entities{{/crossLink}} equally,</li>
  <li>{{#crossLink "PointLight"}}PointLight{{/crossLink}}s, which emit light that
- originates from a single point and spreads outward in all directions, and </li>
+ originates from a single point and spreads outward in all directions, </li>
  <li>{{#crossLink "DirLight"}}DirLight{{/crossLink}}s, which illuminate all the
- {{#crossLink "Entity"}}Entities{{/crossLink}} equally from a given direction</li>
+ {{#crossLink "Entity"}}Entities{{/crossLink}} equally from a given direction, and</li>
+ <li>{{#crossLink "SpotLight"}}SpotLight{{/crossLink}}s, which emit light that
+ originates from a single point and illuminate all the
+ {{#crossLink "Entity"}}Entities{{/crossLink}} from that direction.</li>
  </ul>
 
  <img src="../../../assets/images/Lights.png"></img>
@@ -35,6 +38,17 @@
 
              new XEO.PointLight({
                  pos: [0, 100, 100],
+                 color: [0.5, 0.7, 0.5],
+                 intensity: 1
+                 constantAttenuation: 0,
+                 linearAttenuation: 0,
+                 quadraticAttenuation: 0,
+                 space: "view"
+             }),
+
+             new XEO.SpotLight({
+                 pos: [0, 100, 100],
+                 dir: [-1, -1, -1],
                  color: [0.5, 0.7, 0.5],
                  intensity: 1
                  constantAttenuation: 0,
@@ -196,8 +210,8 @@
 
                         var type = light.type;
 
-                        if (type !== "XEO.AmbientLight" && type !== "XEO.DirLight" && type !== "XEO.PointLight") {
-                            this.error("Component " + XEO._inQuotes(light.id) + " is not an XEO.AmbientLight, XEO.DirLight or XEO.PointLight ");
+                        if (type !== "XEO.AmbientLight" && type !== "XEO.DirLight" && type !== "XEO.PointLight" && type !== "XEO.SpotLight") {
+                            this.error("Component " + XEO._inQuotes(light.id) + " is not an XEO.AmbientLight, XEO.DirLight, XEO.PointLight or XEO.SpotLight");
                             continue;
                         }
 

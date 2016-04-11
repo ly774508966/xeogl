@@ -224,19 +224,19 @@
                         continue;
                     }
 
-                    if (light.type === "dir") {
-                        add("uniform vec3 xeo_uLightDir" + i + ";   // Directional light direction");
+                    if (light.type === "dir" || light.type === "spotX") {
+                        add("uniform vec3 xeo_uLightDir" + i + ";");
                     }
 
-                    if (light.type === "point") {
-                        add("uniform vec3 xeo_uLightPos" + i + ";   // Positional light position");
+                    if (light.type === "point" || light.type === "spot") {
+                        add("uniform vec3 xeo_uLightPos" + i + ";");
                     }
 
-                    if (light.type === "spot") {
-                        add("uniform vec3 xeo_uLightPos" + i + ";   // Spot light position");
-                    }
+                    add("varying vec4 xeo_vViewLightVecAndDist" + i + ";");
 
-                    add("varying vec4 xeo_vViewLightVecAndDist" + i + "; // Output: Vector from vertex to light, packaged with the pre-computed length of that vector");
+                    if (light.type === "spotX") {
+                        add("varying vec3 xeo_vSpotlightDir" + i + ";");
+                    }
                 }
             }
 
@@ -348,6 +348,7 @@
                 }
 
                 add("   vec3 tmpVec3;");
+                add("   vec3 tmpVec3b;");
                 add("   float lightDist;");
 
                 // Lights
@@ -396,9 +397,9 @@
                         add("   xeo_vViewLightVecAndDist" + i + " = vec4(tmpVec3, 0.0);");
                     }
 
-                    if (light.type === "point") {
+                    if (light.type === "point" || light.type === "spot") {
 
-                        // Positional light
+                        // Point light
 
                         if (light.space === "world") {
 
@@ -414,7 +415,7 @@
                             if (normalMapping) {
 
                                 // Transform light vector to Tangent space
-                               add("   tmpVec3 *= TBN;");
+                                add("   tmpVec3 *= TBN;");
                             }
 
                         } else {
@@ -436,6 +437,59 @@
 
                         // Pipe the light direction and distance through to the fragment shader
                         add("   xeo_vViewLightVecAndDist" + i + " = vec4(tmpVec3, lightDist);");
+                    }
+
+                    if (light.type === "spotXXXXXX") {
+
+                        // Spot light
+
+                        if (light.space === "world") {
+
+                            // World space
+
+                            // Get vertex -> light vector in View space
+                            // Transform light pos to View space first
+                            add("   tmpVec3 = (viewMatrix * vec4(xeo_uLightPos" + i + ", 1.0)).xyz - viewPosition.xyz;"); // Vector from World coordinate to light pos
+
+                            // Get distance to light
+                            add("   lightDist = abs(length(tmpVec3));");
+
+                            // View space direction
+                            add("   tmpVec3b = vec3(viewMatrix * vec4(xeo_uLightDir" + i + ", 1.0)).xyz;");
+
+                            if (normalMapping) {
+
+                                // Transform to Tangent space
+                                add("   tmpVec3 *= TBN;");
+                                add("   tmpVec3b *= TBN;");
+                            }
+
+                        } else {
+
+                            // View space
+
+                            // Get vertex -> light vector in View space
+                            add("   tmpVec3 = xeo_uLightPos" + i + ".xyz - viewPosition.xyz;"); // Vector from View coordinate to light pos
+
+                            // Get distance to light
+                            add("   lightDist = abs(length(tmpVec3));");
+
+                            // View space direction
+                            add("   tmpVec3b = xeo_uLightDir" + i + ";");
+
+                            if (normalMapping) {
+
+                                // Transform to tangent space
+                                add("   tmpVec3 *= TBN;");
+                                add("   tmpVec3b *= TBN;");
+                            }
+                        }
+
+                        // Pipe the light direction and distance through to the fragment shader
+                        add("   xeo_vViewLightVecAndDist" + i + " = vec4(tmpVec3, lightDist);");
+
+                        // Pipe the spotlight direction through to the fragment shader
+                        add("   xeo_vSpotlightDir" + i + " = tmpVec3b;");
                     }
                 }
 
@@ -502,7 +556,7 @@
             }
 
             if (normalMapping) {
-            //    add("varying vec3 xeo_vTangent;");
+                //    add("varying vec3 xeo_vTangent;");
             }
 
             add("uniform vec3 xeo_uEmissive;");
@@ -578,6 +632,8 @@
                 }
             }
 
+            comment("Lighting variables");
+
             add("uniform vec3 xeo_uLightAmbientColor;");
             add("uniform float xeo_uLightAmbientIntensity;");
 
@@ -603,9 +659,19 @@
 
                     add("uniform vec3 xeo_uLightColor" + i + ";");
                     add("uniform float xeo_uLightIntensity" + i + ";");
-                    if (light.type === "point") {
+
+                    if (light.type === "point" || light.type === "spot") {
                         add("uniform vec3 xeo_uLightAttenuation" + i + ";");
                     }
+
+                    if (light.type === "spotX") {
+
+                        add("varying vec3 xeo_vSpotlightDir" + i + ";");
+
+                        add("uniform float xeo_uInnerCone" + i + ";");
+                        add("uniform float xeo_uOuterCone" + i + ";");
+                    }
+
                     add("varying vec4 xeo_vViewLightVecAndDist" + i + ";");         // Vector from light to vertex
                 }
 
@@ -819,6 +885,7 @@
                 add("   float specAngle;");
                 add("   float lightDist;");
                 add("   float attenuation;");
+                add("   float spotDirRatio;");
 
 
                 for (i = 0, len = states.lights.lights.length; i < len; i++) {
@@ -833,7 +900,7 @@
                     add("   viewLightVec = normalize(xeo_vViewLightVecAndDist" + i + ".xyz);");
 
 
-                    if (light.type === "point") {
+                    if (light.type === "point" || light.type === "spot") {
                         add();
 
                         add("   specAngle = max(dot(viewNormal, viewLightVec), 0.0);");
@@ -844,6 +911,26 @@
                             "  xeo_uLightAttenuation" + i + "[0] + " +
                             "  xeo_uLightAttenuation" + i + "[1] * lightDist + " +
                             "  xeo_uLightAttenuation" + i + "[2] * lightDist * lightDist);");
+
+                        add("   diffuseLight += xeo_uLightIntensity" + i + " * specAngle * xeo_uLightColor" + i + " * attenuation;");
+
+                        add("   specularLight += xeo_uLightIntensity" + i + " *  pow(max(dot(reflect(-viewLightVec, -viewNormal), viewEyeVec), 0.0), shininess) * attenuation;");
+                    }
+
+                    if (light.type === "spotXXXXXXXXXXXXXXXXX") {
+                        add();
+
+                        add("   specAngle = max(dot(viewNormal, viewLightVec), 0.0);");
+                        add("   spotDirRatio = 1.0 - max(dot(normalize(xeo_vSpotlightDir" + i + "), normalize(-viewLightVec)), 0.0);");
+
+                        add("   lightDist = xeo_vViewLightVecAndDist" + i + ".w;");
+
+                        add("   attenuation = 1.0 - (" +
+                            "  xeo_uLightAttenuation" + i + "[0] + " +
+                            "  xeo_uLightAttenuation" + i + "[1] * lightDist + " +
+                            "  xeo_uLightAttenuation" + i + "[2] * lightDist * lightDist);");
+
+                        add("   attenuation *= 1.0 - clamp((spotDirRatio - xeo_uInnerCone" + i + ") / max(xeo_uOuterCone" + i + " - xeo_uInnerCone" + i + ", 0.0001), 0.0, 1.0);");
 
                         add("   diffuseLight += xeo_uLightIntensity" + i + " * specAngle * xeo_uLightColor" + i + " * attenuation;");
 

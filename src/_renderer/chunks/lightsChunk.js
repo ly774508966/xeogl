@@ -19,6 +19,9 @@
 
             this._uLightAttenuation = this._uLightAttenuation || [];
 
+            this._uInnerCone = this._uInnerCone || [];
+            this._uOuterCone = this._uOuterCone || [];
+
             var lights = this.state.lights;
             var program = this.program;
 
@@ -44,6 +47,15 @@
                         this._uLightPos[i] = program.draw.getUniform("xeo_uLightPos" + i);
                         this._uLightDir[i] = null;
                         this._uLightAttenuation[i] = program.draw.getUniform("xeo_uLightAttenuation" + i);
+                        break;
+
+                    case "spot":
+                        this._uLightColor[i] = program.draw.getUniform("xeo_uLightColor" + i);
+                        this._uLightPos[i] = program.draw.getUniform("xeo_uLightPos" + i);
+                        this._uLightDir[i] = program.draw.getUniform("xeo_uLightDir" + i);
+                        this._uLightAttenuation[i] = program.draw.getUniform("xeo_uLightAttenuation" + i);
+                        this._uInnerCone[i] = program.draw.getUniform("xeo_uInnerCone" + i);
+                        this._uOuterCone[i] = program.draw.getUniform("xeo_uOuterCone" + i);
                         break;
                 }
             }
@@ -89,6 +101,14 @@
 
                         if (this._uLightAttenuation[i]) {
                             this._uLightAttenuation[i].setValue(light.attenuation);
+                        }
+
+                        if (this._uInnerCone[i]) {
+                            this._uInnerCone[i].setValue(light.innerCone);
+                        }
+
+                        if (this._uOuterCone[i]) {
+                            this._uOuterCone[i].setValue(light.outerCone);
                         }
                     }
 
