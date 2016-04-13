@@ -139,7 +139,7 @@
 
                                 euler[0] = beta;
                                 euler[1] = alpha;
-                                euler[2] = -gamma;
+                                euler[2] = gamma;
 
                                 math.eulerToQuaternion(euler, "YXZ", quaternion);
                                 math.mulQuaternions(quaternion, reflectQuaternion, quaternion);
