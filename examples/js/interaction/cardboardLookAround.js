@@ -138,7 +138,7 @@
                                 var orient = orientationAngle ? math.DEGTORAD * orientationAngle : 0;
 
                                 euler[0] = beta;
-                                euler[1] = alpha;
+                                euler[1] = -alpha;
                                 euler[2] = gamma;
 
                                 math.eulerToQuaternion(euler, "YXZ", quaternion);
