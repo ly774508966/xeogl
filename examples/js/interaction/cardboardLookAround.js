@@ -132,7 +132,7 @@
 
                                 var lookat = self.camera.view;
 
-                                var alpha = e.alpha ? math.DEGTORAD * e.alpha : 0; // Z
+                                var alpha = e.gamma ? math.DEGTORAD * e.alpha : 0; // Z
                                 var beta = e.beta ? math.DEGTORAD * e.beta : 0; // X'
                                 var gamma = e.gamma ? math.DEGTORAD * e.gamma : 0; // Y'
                                 var orient = orientationAngle ? math.DEGTORAD * orientationAngle : 0;
