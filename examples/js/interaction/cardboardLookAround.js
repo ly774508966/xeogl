@@ -164,7 +164,7 @@
                                 tempVec3a[1] = 1;
                                 tempVec3a[2] = 0;
 
-                                lookat.up = math.transformVec3(orientMatrix, tempVec3a, tempVec3a);
+                                //lookat.up = math.transformVec3(orientMatrix, tempVec3a, tempVec3a);
                                 
                                 if (self.autoForward) {
                                     
