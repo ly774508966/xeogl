@@ -111,7 +111,7 @@
             window.betaInc = 0;
             window.gammaInc = 0;
 
-            this.scene.on("tickXXX", function () {
+            this.scene.on("tick", function () {
                 self.scene.input.fire("deviceorientation", {
                     alpha: alpha += window.alphaInc, // Z
                     beta: beta += window.betaInc, // X
@@ -148,7 +148,7 @@
 
                                 math.eulerToQuaternion(euler, "YXZ", quaternion);
                                 math.mulQuaternions(reflectQuaternion, quaternion, quaternion);
-                                math.angleAxisToQuaternion(0, 0, 1, -orient, orientQuaternion);
+                              //  math.angleAxisToQuaternion(0, 0, 1, -orient, orientQuaternion);
                                 math.mulQuaternions(orientQuaternion, quaternion, quaternion);
                                 math.mulQuaternions(alignQuaternion, quaternion, quaternion);
                                 math.quaternionToMat4(quaternion, orientMatrix);
