@@ -111,13 +111,13 @@
             window.betaInc = 0;
             window.gammaInc = 0;
 
-            this.scene.on("tick", function () {
-                self.scene.input.fire("deviceorientation", {
-                    alpha: alpha += window.alphaInc, // Z
-                    beta: beta += window.betaInc, // X
-                    gamma: gamma += window.gammaInc // Y
-                });
-            });
+           // this.scene.on("tick", function () {
+           //     self.scene.input.fire("deviceorientation", {
+           //         alpha: alpha += window.alphaInc, // Z
+           //         beta: beta += window.betaInc, // X
+           //         gamma: gamma += window.gammaInc // Y
+           //     });
+           // });
             // ------------------------------------------------------
 
             self.on("active",
