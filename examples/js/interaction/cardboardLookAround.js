@@ -103,17 +103,21 @@
             var self = this;
 
             // ---------- TESTING -----------------------------------
-            //var alpha = 0;
-            //var beta = 0;
-            //var gamma = 0;
-            //
-            //this.scene.on("tick", function () {
-            //    self.scene.input.fire("deviceorientation", {
-            //        alpha: alpha += 0.1,
-            //        beta: beta += 0.1,
-            //        gamma: gamma += 0.0
-            //    });
-            //});
+            var alpha = 0;
+            var beta = 0;
+            var gamma = 0;
+
+            window.alphaInc = 0;
+            window.betaInc = 0;
+            window.gammaInc = 0;
+
+            this.scene.on("tick", function () {
+                self.scene.input.fire("deviceorientation", {
+                    alpha: alpha += window.alphaInc, // Z
+                    beta: beta += window.betaInc, // X
+                    gamma: gamma += window.gammaInc // Y
+                });
+            });
             // ------------------------------------------------------
 
             self.on("active",
@@ -135,16 +139,17 @@
                                 var alpha = e.alpha ? math.DEGTORAD * e.alpha : 0; // Z
                                 var beta = e.beta ? math.DEGTORAD * e.beta : 0; // X'
                                 var gamma = e.gamma ? math.DEGTORAD * e.gamma : 0; // Y'
+
                                 var orient = orientationAngle ? math.DEGTORAD * orientationAngle : 0;
 
                                 euler[0] = beta;
                                 euler[1] = -alpha;
-                                euler[2] = -gamma;
+                                euler[2] = gamma;
 
                                 math.eulerToQuaternion(euler, "YXZ", quaternion);
-                                math.mulQuaternions(quaternion, reflectQuaternion, quaternion);
-                               // math.angleAxisToQuaternion(0, 0, 1, -orient, orientQuaternion);
-                               // math.mulQuaternions(quaternion, orientQuaternion, quaternion);
+                               math.mulQuaternions(reflectQuaternion, quaternion, quaternion);
+                                math.angleAxisToQuaternion(0, 0, 1, -orient, orientQuaternion);
+                                math.mulQuaternions(quaternion, orientQuaternion, quaternion);
                                 math.mulQuaternions(alignQuaternion, quaternion, quaternion);
                                 math.quaternionToMat4(quaternion, orientMatrix);
 
