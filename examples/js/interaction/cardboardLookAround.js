@@ -111,13 +111,13 @@
             window.betaInc = 0;
             window.gammaInc = 0;
 
-           // this.scene.on("tick", function () {
-           //     self.scene.input.fire("deviceorientation", {
-           //         alpha: alpha += window.alphaInc, // Z
-           //         beta: beta += window.betaInc, // X
-           //         gamma: gamma += window.gammaInc // Y
-           //     });
-           // });
+            this.scene.on("tick", function () {
+                self.scene.input.fire("deviceorientation", {
+                    alpha: alpha += window.alphaInc, // Z
+                    beta: beta += window.betaInc, // X
+                    gamma: gamma += window.gammaInc // Y
+                });
+            });
             // ------------------------------------------------------
 
             self.on("active",
@@ -143,13 +143,13 @@
                                 var orient = orientationAngle ? math.DEGTORAD * orientationAngle : 0;
 
                                 euler[0] = beta;
-                                euler[1] = -alpha;
+                                euler[1] = alpha;
                                 euler[2] = gamma;
 
                                 math.eulerToQuaternion(euler, "YXZ", quaternion);
-                               math.mulQuaternions(reflectQuaternion, quaternion, quaternion);
+                                math.mulQuaternions(reflectQuaternion, quaternion, quaternion);
                                 math.angleAxisToQuaternion(0, 0, 1, -orient, orientQuaternion);
-                                math.mulQuaternions(quaternion, orientQuaternion, quaternion);
+                                math.mulQuaternions(orientQuaternion, quaternion, quaternion);
                                 math.mulQuaternions(alignQuaternion, quaternion, quaternion);
                                 math.quaternionToMat4(quaternion, orientMatrix);
 
@@ -170,9 +170,9 @@
                                 tempVec3a[2] = 0;
 
                                 lookat.up = math.transformVec3(orientMatrix, tempVec3a, tempVec3a);
-                                
+
                                 if (self.autoForward) {
-                                    
+
                                 }
                             });
 
