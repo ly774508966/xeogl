@@ -104,14 +104,14 @@
 
             // ---------- TESTING -----------------------------------
             var alpha = 0;
-            var beta = 0;
+            var beta = 90;
             var gamma = 0;
 
             window.alphaInc = 0;
             window.betaInc = 0;
             window.gammaInc = 0;
 
-            this.scene.on("tickxx", function () {
+            this.scene.on("tickX", function () {
                 self.scene.input.fire("deviceorientation", {
                     alpha: alpha += window.alphaInc, // Z
                     beta: beta += window.betaInc, // X
@@ -148,7 +148,7 @@
 
                                 math.eulerToQuaternion(euler, "YXZ", quaternion);
                                 math.mulQuaternions( quaternion, reflectQuaternion, quaternion);
-                              //  math.angleAxisToQuaternion(0, 0, 1, -orient, orientQuaternion);
+                               // math.angleAxisToQuaternion(0, 0, 1, -orient, orientQuaternion);
                                 math.mulQuaternions(orientQuaternion, quaternion, quaternion);
                                 math.mulQuaternions(alignQuaternion, quaternion, quaternion);
                                 math.quaternionToMat4(quaternion, orientMatrix);
