@@ -136,20 +136,14 @@
 
                                 var lookat = self.camera.view;
 
-                                var alpha = 360 - (e.alpha || 0);
-                                alpha = e.alpha ? math.DEGTORAD * e.alpha : 0; // Z
-
-                                var beta = 360 - (e.beta || 0);
-                                beta = e.beta ? math.DEGTORAD * e.beta : 0; // X'
-
-                                var gamma = 360 - (e.gamma || 0);
-                                gamma = e.gamma ? math.DEGTORAD * e.gamma : 0; // Y'
-
+                                var alpha = e.alpha ? math.DEGTORAD * e.alpha : 0; // Z
+                                var beta = e.beta ? math.DEGTORAD * e.beta : 0; // X'
+                                var gamma = e.gamma ? math.DEGTORAD * e.gamma : 0; // Y'
                                 var orient = orientationAngle ? math.DEGTORAD * orientationAngle : 0;
 
                                 euler[0] = beta;
                                 euler[1] = alpha;
-                                euler[2] = gamma;
+                                euler[2] = -gamma;
 
                                 math.eulerToQuaternion(euler, "YXZ", quaternion);
                                 math.mulQuaternions(quaternion, reflectQuaternion, quaternion);
