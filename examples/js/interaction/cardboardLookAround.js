@@ -111,7 +111,7 @@
             window.betaInc = 0;
             window.gammaInc = 0;
 
-            this.scene.on("tickX", function () {
+            this.scene.on("tick", function () {
                 self.scene.input.fire("deviceorientation", {
                     alpha: alpha += window.alphaInc, // Z
                     beta: beta += window.betaInc, // X
@@ -136,19 +136,24 @@
 
                                 var lookat = self.camera.view;
 
-                                var alpha = e.alpha ? math.DEGTORAD * e.alpha : 0; // Z
-                                var beta = e.beta ? math.DEGTORAD * e.beta : 0; // X'
-                                var gamma = e.gamma ? math.DEGTORAD * e.gamma : 0; // Y'
+                                var alpha = 360 - (e.alpha || 0);
+                                alpha = e.alpha ? math.DEGTORAD * e.alpha : 0; // Z
+
+                                var beta = 360 - (e.beta || 0);
+                                beta = e.beta ? math.DEGTORAD * e.beta : 0; // X'
+
+                                var gamma = 360 - (e.gamma || 0);
+                                gamma = e.gamma ? math.DEGTORAD * e.gamma : 0; // Y'
 
                                 var orient = orientationAngle ? math.DEGTORAD * orientationAngle : 0;
 
                                 euler[0] = beta;
                                 euler[1] = alpha;
-                                euler[2] = -gamma;
+                                euler[2] = gamma;
 
                                 math.eulerToQuaternion(euler, "YXZ", quaternion);
-                                math.mulQuaternions(  quaternion, reflectQuaternion, quaternion);
-                               // math.angleAxisToQuaternion(0, 0, 1, -orient, orientQuaternion);
+                                math.mulQuaternions(quaternion, reflectQuaternion, quaternion);
+                                // math.angleAxisToQuaternion(0, 0, 1, -orient, orientQuaternion);
                                 //math.mulQuaternions(orientQuaternion, quaternion, quaternion);
                                 math.mulQuaternions(quaternion, alignQuaternion, quaternion);
                                 math.quaternionToMat4(quaternion, orientMatrix);
