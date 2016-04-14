@@ -153,8 +153,8 @@
 
                                 math.eulerToQuaternion(euler, "YXZ", quaternion);
                                 math.mulQuaternions(quaternion, reflectQuaternion, quaternion);
-                                // math.angleAxisToQuaternion(0, 0, 1, -orient, orientQuaternion);
-                                //math.mulQuaternions(orientQuaternion, quaternion, quaternion);
+                                math.angleAxisToQuaternion(0, 0, 1, -orient, orientQuaternion);
+                                math.mulQuaternions(orientQuaternion, quaternion, quaternion);
                                 math.mulQuaternions(quaternion, alignQuaternion, quaternion);
                                 math.quaternionToMat4(quaternion, orientMatrix);
 
