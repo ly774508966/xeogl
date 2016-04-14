@@ -141,7 +141,7 @@
                                 euler[1] = -alpha;
                                 euler[2] = -gamma;
 
-                                math.eulerToQuaternion(euler, "ZXY", quaternion);
+                                math.eulerToQuaternion(euler, "YXZ", quaternion);
                                 math.mulQuaternions(quaternion, reflectQuaternion, quaternion);
                                // math.angleAxisToQuaternion(0, 0, 1, -orient, orientQuaternion);
                                // math.mulQuaternions(quaternion, orientQuaternion, quaternion);
