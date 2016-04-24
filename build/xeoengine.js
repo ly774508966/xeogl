@@ -1,14 +1,14 @@
 /*
  * xeoEngine V0.1.0
  *
- * A WebGL-based 3D visualization engine from xeoLabs
+ * A WebGL-based 3D visualization engine from xeographics
  * http://xeoengine.org/
  *
  * Built on 2016-04-20
  *
  * MIT License
  * Copyright 2016, Lindsay Kay
- * http://xeolabs.com/
+ * http://xeographics.com/
  *
  */
 
@@ -18,7 +18,7 @@
  @class XEO
  @main XEO
  @static
- @author xeolabs / http://xeolabs.com/
+ @author xeographics / http://xeographics.com/
  */
 (function () {
 
@@ -4405,7 +4405,7 @@ var Canvas2Image = (function () {
 
         this.linked = gl.getProgramParameter(this.handle, gl.LINK_STATUS);
 
-        // HACK: Disable validation temporarily: https://github.com/xeolabs/xeoengine/issues/5
+        // HACK: Disable validation temporarily: https://github.com/xeographics/xeoengine/issues/5
         // Perhaps we should defer validation until render-time, when the program has values set for all inputs?
 
         //this.validated = this.linked ? gl.getProgramParameter(this.handle, gl.VALIDATE_STATUS) : false;
@@ -10121,7 +10121,7 @@ XEO.math.b3 = function (t, p0, p1, p2, p3) {
     id: "myScene",
     meta: {
         title: "My awesome 3D scene",
-        author: "@xeolabs",
+        author: "@xeographics",
         date: "February 13 2015"
     }
 });
@@ -13154,7 +13154,7 @@ XEO.math.b3 = function (t, p0, p1, p2, p3) {
  ````
 
  @class CameraFlight
- @author xeolabs / http://xeolabs.org
+ @author xeographics / http://xeographics.org
  @module XEO
  @submodule animation
  @constructor
@@ -14649,7 +14649,7 @@ XEO.math.b3 = function (t, p0, p1, p2, p3) {
  @param [cfg.up=[0,1,0]] {Array of Number} The "up" vector.
  @param [cfg.gimbalLockY=false] {Boolean} Whether Y-axis rotation is about the World-space Y-axis or the View-space Y-axis.
  @extends Component
- @author xeolabs / http://xeolabs.com/
+ @author xeographics / http://xeographics.com/
  */
 (function () {
 
@@ -30485,7 +30485,7 @@ XEO.GLTFLoaderUtils = Object.create(Object, {
      Find API documentation for Model here:
 
      <ul>
-     <li>[Importing glTF](https://github.com/xeolabs/xeoengine/wiki/Importing-glTF)</li>
+     <li>[Importing glTF](https://github.com/xeographics/xeoengine/wiki/Importing-glTF)</li>
      </ul>
 
      @class Model

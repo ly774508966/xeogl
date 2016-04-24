@@ -102,7 +102,7 @@
     id: "myScene",
     meta: {
         title: "My awesome 3D scene",
-        author: "@xeolabs",
+        author: "@xeographics",
         date: "February 13 2015"
     }
 });

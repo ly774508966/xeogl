@@ -49,7 +49,7 @@
      ````
      @class XEO.debug
      @static
-     @author xeolabs / http://xeolabs.com/
+     @author xeographics / http://xeographics.com/
      */
     XEO.debug = new (function () {
 

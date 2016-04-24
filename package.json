@@ -2,16 +2,16 @@
   "name": "xeoengine",
   "title": "xeoEngine",
   "version": "0.1.0",
-  "description": "A WebGL-based 3D visualization engine from xeoLabs",
+  "description": "A WebGL-based 3D visualization engine from xeographics",
   "homepage": "http://xeoengine.org/",
   "author": {
     "name": "Lindsay Kay",
-    "email": "lindsay.kay@xeolabs.com"
+    "email": "lindsay.kay@xeographics.com"
   },
   "license": "MIT License",
   "repository": {
     "type": "git",
-    "url": "http://github.com/xeolabs/xeoengine.git"
+    "url": "http://github.com/xeographics/xeoengine.git"
   },
   "dependencies": {
     "grunt-contrib-yuidoc": "~0.7.0"

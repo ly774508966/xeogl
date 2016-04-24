@@ -8,7 +8,7 @@
 
 **xeoEngine** is a data-driven WebGL-based engine for quick and easy 3D visualization on the Web. 
 
-Find out more in the [Getting Started](https://github.com/xeolabs/xeoengine/wiki/Getting-Started) guide.
+Find out more in the [Getting Started](https://github.com/xeographics/xeoengine/wiki/Getting-Started) guide.
 
 ## Links 
 
@@ -16,9 +16,9 @@ Find out more in the [Getting Started](https://github.com/xeolabs/xeoengine/wiki
  - [Examples](http://xeoengine.org/examples)
  - [Features](http://xeoengine.org#features)
  - [API Docs](http://xeoengine.org/docs/index.html)
- - [Wiki](https://github.com/xeolabs/xeoengine/wiki)
- - [Download](https://github.com/xeolabs/xeoengine/archive/master.zip)
- - [MIT License](https://github.com/xeolabs/xeoengine/blob/master/MIT-LICENSE)
+ - [Wiki](https://github.com/xeographics/xeoengine/wiki)
+ - [Download](https://github.com/xeographics/xeoengine/archive/master.zip)
+ - [MIT License](https://github.com/xeographics/xeoengine/blob/master/MIT-LICENSE)
  
 ## Building
  

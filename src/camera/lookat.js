@@ -49,7 +49,7 @@
  @param [cfg.up=[0,1,0]] {Array of Number} The "up" vector.
  @param [cfg.gimbalLockY=false] {Boolean} Whether Y-axis rotation is about the World-space Y-axis or the View-space Y-axis.
  @extends Component
- @author xeolabs / http://xeolabs.com/
+ @author xeographics / http://xeographics.com/
  */
 (function () {
 

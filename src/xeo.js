@@ -4,7 +4,7 @@
  @class XEO
  @main XEO
  @static
- @author xeolabs / http://xeolabs.com/
+ @author xeographics / http://xeographics.com/
  */
 (function () {
 

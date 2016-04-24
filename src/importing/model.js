@@ -38,7 +38,7 @@
      Find API documentation for Model here:
 
      <ul>
-     <li>[Importing glTF](https://github.com/xeolabs/xeoengine/wiki/Importing-glTF)</li>
+     <li>[Importing glTF](https://github.com/xeographics/xeoengine/wiki/Importing-glTF)</li>
      </ul>
 
      @class Model

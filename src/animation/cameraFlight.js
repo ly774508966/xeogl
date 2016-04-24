@@ -85,7 +85,7 @@
  ````
 
  @class CameraFlight
- @author xeolabs / http://xeolabs.org
+ @author xeographics / http://xeographics.org
  @module XEO
  @submodule animation
  @constructor

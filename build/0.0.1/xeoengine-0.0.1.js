@@ -1,14 +1,14 @@
 /*
  * xeoEngine V0.0.1
  *
- * A WebGL-based 3D engine from xeoLabs
+ * A WebGL-based 3D engine from xeographics
  * http://xeoengine.org/
  *
  * Built on 2015-03-04
  *
  * MIT License
  * Copyright 2015, Lindsay Kay
- * http://xeolabs.com/
+ * http://xeographics.com/
  *
  */
 
@@ -99,7 +99,7 @@
  * @class XEO
  * @main XEO
  * @static
- * @author xeolabs / http://xeolabs.com/
+ * @author xeographics / http://xeographics.com/
  */
 (function () {
 
@@ -5934,7 +5934,7 @@
      @param [cfg.look=[0,0,0]] {Array of Number} The position of the point-of-interest we're looking at.
      @param [cfg.up=[0,1,0]] {Array of Number} The "up" vector.
      @extends Component
-     @author xeolabs / http://xeolabs.com/
+     @author xeographics / http://xeographics.com/
      */
     XEO.Lookat = XEO.Component.extend({
 
