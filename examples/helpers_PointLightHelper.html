@@ -7,7 +7,8 @@
 
     <script src="../build/xeoengine.min.js"></script>
 
-    <script src="js/debug/debug.js"></script>
+    <script src="js/geometry/vectorTextGeometry.js"></script>
+    <script src="js/helpers/pointLightHelper.js"></script>
 
     <link href="css/styles.css" rel="stylesheet"/>
 
@@ -121,27 +122,8 @@
         })
     });
 
-    // Indicator sphere to show position of PointLight
-    var pointLightIndicator = new XEO.Entity({
-        geometry: new XEO.SphereGeometry({
-            radius: .5
-        }),
-        material: new XEO.PhongMaterial({
-            ambient: [0, 0, 0],
-            diffuse: [0, 0, 0],
-            emissive: [1.0, 0, 0]
-        }),
-        transform: new XEO.Translate()
-    });
-
-    // Update position of indicator sphere in synch with PointLight's position
-    pointLight.on("pos", function (pos) {
-        pointLightIndicator.transform.xyz = pos;
-    });
-
-    // Update color of indicator sphere in synch with PointLight's color
-    pointLight.on("color", function (color) {
-        pointLightIndicator.material.emissive = color;
+    new XEO.PointLightHelper({
+        pointLight: pointLight
     });
 
     // Update position of PointLight in synch with animation progress along SplineCurve
