@@ -187,6 +187,13 @@
         this.colorBuf = null;
 
         /**
+         Stencil buffer render state.
+         @property stencilBuf
+         @type {renderer.StencilBuf}
+         */
+        this.stencilBuf = null;
+
+        /**
          Lights render state.
          @property lights
          @type {renderer.Lights}
@@ -475,13 +482,14 @@
         this._setChunk(object, 5, "shader", this.shader);
         this._setChunk(object, 6, "shaderParams", this.shaderParams);
         this._setChunk(object, 7, "depthBuf", this.depthBuf);
-        this._setChunk(object, 8, "colorBuf", this.colorBuf);
-        this._setChunk(object, 9, "lights", this.lights);
-        this._setChunk(object, 10, this.material.type, this.material); // Supports different material systems
-        this._setChunk(object, 11, "clips", this.clips);
-        this._setChunk(object, 12, "viewport", this.viewport);
-        this._setChunk(object, 13, "geometry", this.geometry);
-        this._setChunk(object, 14, "draw", this.geometry, true); // Must be last
+        this._setChunk(object, 8, "stencilBuf", this.stencilBuf);
+        this._setChunk(object, 9, "colorBuf", this.colorBuf);
+        this._setChunk(object, 10, "lights", this.lights);
+        this._setChunk(object, 11, this.material.type, this.material); // Supports different material systems
+        this._setChunk(object, 12, "clips", this.clips);
+        this._setChunk(object, 13, "viewport", this.viewport);
+        this._setChunk(object, 14, "geometry", this.geometry);
+        this._setChunk(object, 15, "draw", this.geometry, true); // Must be last
 
         if (!this.objects[objectId]) {
 
@@ -1128,7 +1136,21 @@
         frameCtx.renderBuf = null;
         frameCtx.depthbufEnabled = null;
         frameCtx.clearDepth = null;
-        frameCtx.depthFunc = gl.LESS;
+        frameCtx.depthFunc = null;
+        frameCtx.stencilTestEnabled = null;
+        frameCtx.clearStencil = null;
+        frameCtx.stencilFrontFunc = null;
+        frameCtx.stencilFrontRef = null;
+        frameCtx.stencilFrontMask = null;
+        frameCtx.stencilFrontSFail = null;
+        frameCtx.stencilFrontDPFail = null;
+        frameCtx.stencilFrontDPPass = null;
+        frameCtx.stencilBackFunc = null;
+        frameCtx.stencilBackRef = null;
+        frameCtx.stencilBackMask = null;
+        frameCtx.stencilBackSFail = null;
+        frameCtx.stencilBackDPFail = null;
+        frameCtx.stencilBackDPPass = null;
         frameCtx.blendEnabled = false;
         frameCtx.backfaces = true;
         frameCtx.frontface = true; // true == "ccw" else "cw"
@@ -1152,6 +1174,8 @@
         gl.viewport(0, 0, gl.drawingBufferWidth, gl.drawingBufferHeight);
 
         gl.enable(gl.DEPTH_TEST);
+        gl.enable(gl.STENCIL_TEST);
+        gl.clearStencil(0); // TODO: Might not be desired when doing multiple renders per frame.
 
         if (this.transparent || params.pickObject || params.rayPick) {
 

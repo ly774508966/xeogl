@@ -163,6 +163,7 @@
                     }
                     
                     this._state.active = value;
+                    this._renderer.imageDirty = true;
                     
                     /**
                      * Fired whenever this DepthBuf's {{#crossLink "DepthBuf/active:property"}}{{/crossLink}} property changes.

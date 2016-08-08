@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>xeoEngine Example</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+
+    <link href="css/styles.css" rel="stylesheet"/>
+    <script src="../build/xeoengine.js"></script>
+
+    <script src="js/importing/k3d.js"></script>
+    <script src="js/importing/objGeometry.js"></script>
+
+<body>
+
+<div id="infoLight">
+    <a href="http://xeoengine.org" target="_home">xeoEngine</a><br><br>
+    rendering outlines using <a href="../docs/classes/StencilBuf.html" target="_docs">StencilBuf</a>
+</div>
+
+<script>
+
+    // The entity
+
+    var entity = new XEO.Entity({
+        geometry: new XEO.BoxGeometry({
+            radius: 2.0,
+            tube: 0.3,
+            radialSegments: 80,
+            tubeSegments: 40,
+            arc: Math.PI * 2.0
+        }),
+        material: new XEO.PhongMaterial({
+            ambient: [0.9, 0.3, 0.9],
+            shininess: 30,
+            diffuseMap: new XEO.Texture({
+                src: "textures/diffuse/uvGrid2.jpg"
+            })
+        }),
+        layer: new XEO.Layer({ // Render the outline AFTER this entity
+            priority: 1
+        }),
+        stencilBuf: new XEO.StencilBuf({ // Write this entity to the stencil buffer
+
+            frontFunc: "always",
+            frontRef: 9,
+            frontSFail: "keep",
+            frontDPPass: "keep",
+            frontDPFail: "replace",
+
+            backFunc: "always",
+            backRef: 9,
+            backSFail: "keep",
+            backDPPass: "keep",
+            backDPFail: "replace"
+        })
+    });
+
+    var control = new XEO.CameraControl();
+
+    entity.scene.on("tick",
+            function () {
+
+                var view = entity.scene.camera.view;
+
+                view.rotateEyeY(0.4);
+                view.rotateEyeX(0.15);
+            });
+
+    // The outline
+
+    var outline = new XEO.Entity({
+        geometry: entity.geometry, // Outline has same shape as the entity
+        transform: entity.transform,
+        material: new XEO.PhongMaterial({ // Outline is glowing yellow
+            ambient: [0, 0, 0],
+            diffuse: [0, 0, 0],
+            specular: [0, 0, 0],
+            emissive: [1, 1, 0],
+
+            // Grow the geometry vertex positions out along their normals,
+            // to cause the outline to appear around the edges of the entity
+            thickness: 2.5
+        }),
+        modes: new XEO.Modes({ // Only render backfaces for the outline
+            backfaces: true
+        }),
+        layer: new XEO.Layer({ // Render outline AFTER the entity
+            priority: 2
+        }),
+        stencilBuf: new XEO.StencilBuf({ // Don't render outline where stencil buf already contains the entity
+
+            frontFunc: "notequal",
+            frontRef: 9,
+            frontSFail: "keep",
+            frontDPPass: "keep",
+            frontDPFail: "replace",
+
+            backFunc: "notequal",
+            backRef: 9,
+            backSFail: "keep",
+            backDPPass: "keep",
+            backDPFail: "replace"
+        })
+    });
+
+</script>
+</body>
+</html>

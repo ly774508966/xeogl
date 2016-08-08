@@ -21,6 +21,7 @@
             this._uShininess = draw.getUniform("xeo_uShininess");
 
             this._uPointSize = draw.getUniform("xeo_uPointSize");
+            this._uThickness = draw.getUniform("xeo_uThickness");
 
             // Textures
 
@@ -120,6 +121,10 @@
 
             if (this._uPointSize) {
                 this._uPointSize.setValue(state.pointSize);
+            }
+
+            if (this._uThickness) {
+                this._uThickness.setValue(state.thickness);
             }
 
             // Ambient map

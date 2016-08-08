@@ -304,6 +304,8 @@
 
                 var defaultLineStripGeometry = ((!cfg.primitive || cfg.primitive === "line-strip") && cfg.positions && !cfg.indices);
 
+                var defaultPointsGeometry = (cfg.primitive === "points" && cfg.positions && !cfg.indices);
+
                 if (defaultLineStripGeometry) {
 
                     // Line strip when only positions are given and no primitive
@@ -316,6 +318,8 @@
                     this.primitive = "line-strip";
                     this.positions = cfg.positions;
                     this.indices = indices;
+
+                } else if (defaultPointsGeometry) {
 
                 } else {
 

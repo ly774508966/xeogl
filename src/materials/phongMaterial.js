@@ -99,6 +99,7 @@
  @param [cfg.shininess=80] {Number} Scalar in range 0-128 that determines the size and sharpness of specular highlights.
  @param [cfg.reflectivity=1] {Number} Scalar in range 0-1 that controls how much {{#crossLink "CubeMap"}}CubeMap{{/crossLink}} is reflected.
  @param [cfg.lineWidth=1] {Number} Scalar that controls the width of lines for {{#crossLink "Geometry"}}{{/crossLink}} with {{#crossLink "Geometry/primitive:property"}}{{/crossLink}} set to "lines".
+ @param [cfg.thickness=0] {Number} Scalar that controls the thickness of {{#crossLink "Geometry"}}{{/crossLink}} with {{#crossLink "Geometry/primitive:property"}}{{/crossLink}} set to "triangles".
  @param [cfg.pointSize=1] {Number} Scalar that controls the size of points for {{#crossLink "Geometry"}}{{/crossLink}} with {{#crossLink "Geometry/primitive:property"}}{{/crossLink}} set to "points".
  @param [cfg.diffuseMap=null] {Texture} A diffuse map {{#crossLink "Texture"}}Texture{{/crossLink}}, which will override the effect of the diffuse property. Must be within the same {{#crossLink "Scene"}}Scene{{/crossLink}} as this PhongMaterial.
  @param [cfg.specularMap=null] {Texture} A specular map {{#crossLink "Texture"}}Texture{{/crossLink}}, which will override the effect of the specular property. Must be within the same {{#crossLink "Scene"}}Scene{{/crossLink}} as this PhongMaterial.
@@ -137,6 +138,7 @@
 
                 lineWidth: 1.0,
                 pointSize: 1.0,
+                thickness: 0.0,
 
                 ambientMap: null,
                 normalMap: null,
@@ -177,6 +179,7 @@
 
             this.lineWidth = cfg.lineWidth;
             this.pointSize = cfg.pointSize;
+            this.thickness = cfg.thickness;
 
             this.ambientMap = cfg.ambientMap;
             this.diffuseMap = cfg.diffuseMap;
@@ -464,6 +467,46 @@
 
                 get: function () {
                     return this._state.pointSize;
+                }
+            },
+
+            /**
+             Scalar that controls TODO
+
+             Fires a {{#crossLink "PhongMaterial/thickness:event"}}{{/crossLink}} event on change.
+
+             @property thickness
+             @default 0.0
+             @type Number
+             */
+            thickness: {
+
+                set: function (value) {
+
+                    value = value || 0.0;
+
+                    if (this._state.thickness === value) {
+                        return;
+                    }
+
+                    this._state.thickness = value;
+
+                    this._hashDirty = true;
+                    this.fire("dirty", true);
+
+                    this._renderer.imageDirty = true;
+
+                    /**
+                     Fired whenever this PhongMaterial's {{#crossLink "PhongMaterial/thickness:property"}}{{/crossLink}} property changes.
+
+                     @event thickness
+                     @param value Number The property's new value
+                     */
+                    this.fire("thickness", this._state.thickness);
+                },
+
+                get: function () {
+                    return this._state.thickness;
                 }
             },
 
@@ -914,6 +957,10 @@
 
             var hash = ["/p"]; // 'P' for Phong
 
+            if (state.thickness != 0.0) {
+                hash.push("/t");
+            }
+
             if (state.normalMap) {
                 hash.push("/b");
                 if (state.normalMap.matrix) {
@@ -1021,6 +1068,10 @@
 
             if (this._state.pointSize !== 1.0) {
                 json.pointSize = this._state.pointSize;
+            }
+
+            if (this._state.thickness !== 0.0) {
+                json.thickness = this._state.thickness;
             }
 
             // Textures

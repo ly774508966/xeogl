@@ -151,7 +151,8 @@
              */
             this.contextAttr = cfg.contextAttr || {};
 
-            this.contextAttr.alpha = true;
+            this.contextAttr["alpha"] = true; // Preserve alpha
+            this.contextAttr["stencil"] = true; // Request stencil buffer
 
             if (!cfg.canvas) {
 
@@ -247,6 +248,11 @@
                 function () {
                     self._initWebGL();
                     if (self.gl) {
+
+                        var contextAttributes = gl.getContextAttributes();
+                        if (!contextAttributes.stencil) {
+                            self.warn("WebGL context provides no stencil buffer")
+                        }
 
                         /**
                          * Fired whenever the WebGL context has been restored again after having previously being lost

@@ -161,6 +161,21 @@
 
     /**
 
+     Stencil buffer state.
+
+     renderer.StencilBuf
+     @module XEO
+
+     @constructor
+     @param cfg {*} Configs
+     @extends renderer.State
+     */
+    XEO.renderer.StencilBuf = XEO.renderer.State.extend({
+        _ids: new XEO.utils.Map({})
+    });
+
+    /**
+
      Renderer lights state.
 
      renderer.Lights

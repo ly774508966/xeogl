@@ -216,6 +216,7 @@
             this.colorBuf = cfg.colorBuf;
             this.depthTarget = cfg.depthTarget;
             this.depthBuf = cfg.depthBuf;
+            this.stencilBuf = cfg.stencilBuf;
             this.visibility = cfg.visibility;
             this.cull = cfg.cull;
             this.modes = cfg.modes;
@@ -466,6 +467,41 @@
 
                 get: function () {
                     return this._attached.depthBuf;
+                }
+            },
+
+            /**
+             * The {{#crossLink "StencilBuf"}}StencilBuf{{/crossLink}} attached to this Entity.
+             *
+             * Must be within the same {{#crossLink "Scene"}}Scene{{/crossLink}} as this Entity. Defaults to the
+             * parent {{#crossLink "Scene"}}Scene{{/crossLink}}'s default {{#crossLink "Scene/stencilBuf:property"}}stencilBuf{{/crossLink}} when set to
+             * a null or undefined value.
+             *
+             * Fires an {{#crossLink "Entity/stencilBuf:event"}}{{/crossLink}} event on change.
+             *
+             * @property stencilBuf
+             * @type StencilBuf
+             */
+            stencilBuf: {
+
+                set: function (value) {
+
+                    /**
+                     * Fired whenever this Entity's  {{#crossLink "Entity/stencilBuf:property"}}{{/crossLink}} property changes.
+                     *
+                     * @event stencilBuf
+                     * @param value The property's new value
+                     */
+                    this._attach({
+                        name: "stencilBuf",
+                        type: "XEO.StencilBuf",
+                        component: value,
+                        sceneDefault: true
+                    });
+                },
+
+                get: function () {
+                    return this._attached.stencilBuf;
                 }
             },
 
@@ -1453,6 +1489,7 @@
             attached.colorBuf._compile();
             attached.depthTarget._compile();
             attached.depthBuf._compile();
+            attached.stencilBuf._compile();
             attached.visibility._compile();
             attached.cull._compile();
             attached.modes._compile();
@@ -1508,6 +1545,7 @@
                 colorBuf: attached.colorBuf.id,
                 depthTarget: attached.depthTarget.id,
                 depthBuf: attached.depthBuf.id,
+                stencilBuf: attached.stencilBuf.id,
                 visibility: attached.visibility.id,
                 cull: attached.cull.id,
                 modes: attached.modes.id,

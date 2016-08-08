@@ -379,6 +379,7 @@
             dummy = this.colorBuf;
             dummy = this.depthTarget;
             dummy = this.depthBuf;
+            dummy = this.stencilBuf;
             dummy = this.visibility;
             dummy = this.cull;
             dummy = this.modes;
@@ -886,6 +887,30 @@
             },
 
             /**
+             * The default {{#crossLink "StencilBuf"}}StencilBuf{{/crossLink}} provided by this Scene.
+             *
+             * This {{#crossLink "StencilBuf"}}{{/crossLink}} has an {{#crossLink "Component/id:property"}}{{/crossLink}} equal to "default.stencilBuf",
+             * with all other properties initialised to their default values.
+             *
+             * {{#crossLink "Entity"}}Entities{{/crossLink}} within this Scene are attached to this
+             * {{#crossLink "StencilBuf"}}{{/crossLink}} by default.
+             *
+             * @property stencilBuf
+             * @final
+             * @type StencilBuf
+             */
+            stencilBuf: {
+                get: function () {
+                    return this.components["default.stencilBuf"] ||
+                        new XEO.StencilBuf(this, {
+                            id: "default.stencilBuf",
+                            isDefault: true,
+                            active: false
+                        });
+                }
+            },
+
+            /**
              * The default {{#crossLink "Visibility"}}Visibility{{/crossLink}} provided by this Scene.
              *
              * This {{#crossLink "Visibility"}}Visibility{{/crossLink}} has an {{#crossLink "Component/id:property"}}id{{/crossLink}} equal to "default.visibility",
@@ -1336,8 +1361,8 @@
 
             var triangleVertices = XEO.math.vec3();
             var position = XEO.math.vec4();
-            var worldPos = XEO.math.vec4();
-            var viewPos = XEO.math.vec4();
+            var worldPos = XEO.math.vec3();
+            var viewPos = XEO.math.vec3();
             var bary = XEO.math.vec3();
 
             var na = XEO.math.vec3();
@@ -1486,7 +1511,8 @@
 
                             // Get Local-space cartesian coordinates of the ray-triangle intersection
 
-                            hit.position = position;
+                            hit.localPos = position;
+                            hit.position = position; // Deprecated
 
                             // Get interpolated World-space coordinates
 
@@ -1509,7 +1535,7 @@
                             
                             // Get View-space cartesian coordinates of the ray-triangle intersection
 
-                            math.transformVec4(entity.camera.view.matrix, worldPos, tempVec4c);
+                            math.transformVec4(entity.camera.view.matrix, tempVec4b, tempVec4c);
 
                             viewPos[0] = tempVec4c[0];
                             viewPos[1] = tempVec4c[1];

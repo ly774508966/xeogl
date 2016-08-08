@@ -268,6 +268,10 @@
                 add("uniform float xeo_uPointSize;");
             }
 
+            if (states.material.thickness !== 0.0) {
+                add("uniform float xeo_uThickness;");
+            }
+
             if (states.billboard.active) {
 
                 add("void billboard(inout mat4 mat) {");
@@ -297,6 +301,10 @@
                 add("   vec4 localNormal = vec4(xeo_aNormal, 0.0); ");
                 add("   mat4 modelNormalMatrix = xeo_uModelNormalMatrix;");
                 add("   mat4 viewNormalMatrix = xeo_uViewNormalMatrix;");
+
+                if (states.material.thickness !== 0.0) {
+                    add("   localPosition += (localNormal/10.0); ");
+                }
             }
 
             add("   mat4 modelMatrix = xeo_uModelMatrix;");
