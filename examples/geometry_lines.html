@@ -45,7 +45,11 @@
     });
 
     var entity = new XEO.Entity({
-        geometry: geometry
+        geometry: geometry,
+        material: new XEO.PhongMaterial({
+            diffuse: [0.6, 0.6, 1.0],
+            lineWidth: 4
+        })
     });
 
     entity.scene.on("tick",
