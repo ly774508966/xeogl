@@ -100,7 +100,7 @@
 
             var gl = this.gl;
 
-            gl.activeTexture(gl["TEXTURE" + unit]);
+            gl.activeTexture(gl.TEXTURE0 + unit);
 
             gl.bindTexture(this.target, this.texture);
 
@@ -120,7 +120,7 @@
 
             var gl = this.gl;
 
-            gl.activeTexture(gl["TEXTURE" + unit]);
+            gl.activeTexture(gl.TEXTURE0 + unit);
 
             gl.bindTexture(this.target, null);
         }

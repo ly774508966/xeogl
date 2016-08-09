@@ -1140,6 +1140,7 @@
         frameCtx.useProgram = 0;
         frameCtx.bindTexture = 0;
         frameCtx.bindArray = 0;
+        frameCtx.numTextureUnits =  gl.getParameter(gl.MAX_TEXTURE_IMAGE_UNITS);
 
         // The extensions needs to be re-queried in case the context was lost and has been recreated.
         if (XEO.WEBGL_INFO.SUPPORTED_EXTENSIONS["OES_element_index_uint"]) {
@@ -1230,8 +1231,7 @@
             frameCtx.renderBuf.unbind();
         }
 
-        var numTextureUnits = gl.getParameter(gl.MAX_TEXTURE_IMAGE_UNITS);
-        for (var ii = 0; ii < numTextureUnits; ++ii) {
+        for (var ii = 0; ii < frameCtx.bindTexture; ++ii) {
             gl.activeTexture(gl.TEXTURE0 + ii);
             gl.bindTexture(gl.TEXTURE_CUBE_MAP, null);
             gl.bindTexture(gl.TEXTURE_2D, null);

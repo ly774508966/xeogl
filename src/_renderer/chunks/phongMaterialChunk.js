@@ -122,11 +122,22 @@
                 this._uPointSize.setValue(state.pointSize);
             }
 
+            // Unbind previous material's textures
+
+            for (var i = 0, len = frameCtx.bindTexture; i < len; i++) {
+                gl.activeTexture(gl.TEXTURE0 + i);
+                gl.bindTexture(gl.TEXTURE_CUBE_MAP, null);
+                gl.bindTexture(gl.TEXTURE_2D, null);
+            }
+
+            frameCtx.bindTexture = 0;
+            frameCtx.textureUnit = 0;
+
             // Ambient map
 
             if (state.ambientMap && state.ambientMap.texture) {
 
-                draw.bindTexture(this._uAmbientMap, state.ambientMap.texture, (frameCtx.textureUnit < 8 ? frameCtx.textureUnit++ : frameCtx.textureUnit = 0));
+                draw.bindTexture(this._uAmbientMap, state.ambientMap.texture, frameCtx.textureUnit++);
                 frameCtx.bindTexture++;
 
                 if (this._uAmbientMapMatrix) {
@@ -138,7 +149,7 @@
 
             if (state.diffuseMap && state.diffuseMap.texture) {
 
-                draw.bindTexture(this._uDiffuseMap, state.diffuseMap.texture, (frameCtx.textureUnit < 8 ? frameCtx.textureUnit++ : frameCtx.textureUnit = 0));
+                draw.bindTexture(this._uDiffuseMap, state.diffuseMap.texture, frameCtx.textureUnit++);
                 frameCtx.bindTexture++;
 
                 if (this._uDiffuseMapMatrix) {
@@ -153,7 +164,7 @@
 
             if (state.specularMap && state.specularMap.texture) {
 
-                draw.bindTexture(this._uSpecularMap, state.specularMap.texture, (frameCtx.textureUnit < 8 ? frameCtx.textureUnit++ : frameCtx.textureUnit = 0));
+                draw.bindTexture(this._uSpecularMap, state.specularMap.texture, frameCtx.textureUnit++);
                 frameCtx.bindTexture++;
 
                 if (this._uSpecularMapMatrix) {
@@ -168,7 +179,7 @@
 
             if (state.emissiveMap && state.emissiveMap.texture) {
 
-                draw.bindTexture(this._uEmissiveMap, state.emissiveMap.texture, (frameCtx.textureUnit < 8 ? frameCtx.textureUnit++ : frameCtx.textureUnit = 0));
+                draw.bindTexture(this._uEmissiveMap, state.emissiveMap.texture, frameCtx.textureUnit++);
                 frameCtx.bindTexture++;
 
                 if (this._uEmissiveMapMatrix) {
@@ -183,7 +194,7 @@
 
             if (state.opacityMap && state.opacityMap.texture) {
 
-                draw.bindTexture(this._uOpacityMap, state.opacityMap.texture, (frameCtx.textureUnit < 8 ? frameCtx.textureUnit++ : frameCtx.textureUnit = 0));
+                draw.bindTexture(this._uOpacityMap, state.opacityMap.texture, frameCtx.textureUnit++);
                 frameCtx.bindTexture++;
 
                 if (this._uOpacityMapMatrix) {
@@ -198,7 +209,7 @@
 
             if (state.reflectivityMap && state.reflectivityMap.texture) {
 
-                draw.bindTexture(this._uReflectivityMap, state.reflectivityMap.texture, (frameCtx.textureUnit < 8 ? frameCtx.textureUnit++ : frameCtx.textureUnit = 0));
+                draw.bindTexture(this._uReflectivityMap, state.reflectivityMap.texture, frameCtx.textureUnit++);
 
                 if (this._uReflectivityMapMatrix) {
                     this._uReflectivityMapMatrix.setValue(state.reflectivityMap.matrix);
@@ -209,7 +220,7 @@
 
             if (state.normalMap && state.normalMap.texture) {
 
-                draw.bindTexture(this._uNormalMap, state.normalMap.texture, (frameCtx.textureUnit < 8 ? frameCtx.textureUnit++ : frameCtx.textureUnit = 0));
+                draw.bindTexture(this._uNormalMap, state.normalMap.texture, frameCtx.textureUnit++);
                 frameCtx.bindTexture++;
 
                 if (this._uNormalMapMatrix) {

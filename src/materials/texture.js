@@ -267,9 +267,10 @@
                 }
 
                 if (this._target) {
-                    this._onTargetActive = this._target.on("active",  // Called immediately when first bound
+                    var target = this._target;
+                    this._onTargetActive = target.on("active",  // Called immediately when first bound
                         function (active) {
-                            state.texture = active ? this._state.renderBuf.getTexture() : null;
+                            state.texture = active ? target._state.renderBuf.getTexture() : null;
                         });
                 }
 
@@ -517,8 +518,8 @@
             },
 
             /**
-             * Instance or ID of a {{#crossLink "ColorTarget"}}ColorTarget{{/crossLink}} or
-             * {{#crossLink "DepthTarget"}}DepthTarget{{/crossLink}} to source this Texture from.
+             * Instance or ID of a {{#crossLink "ColorTarget"}}{{/crossLink}} or
+             * {{#crossLink "DepthTarget"}}{{/crossLink}} to source this Texture from.
              *
              * Alternatively, you could indicate the source via either of properties
              * {{#crossLink "Texture/src:property"}}{{/crossLink}} or {{#crossLink "Texture/image:property"}}{{/crossLink}}.
@@ -539,6 +540,8 @@
                     this._image = null;
                     this._src = null;
 
+                    var self = this;
+
                     this._target = this._attach({
                         name: "renderBuf",
                         type: null,
@@ -546,8 +549,9 @@
                         sceneDefault: true,
                         on: {
                             active: {
-                                callback: this._onTargetActive,
-                                scope: this
+                                callback: function (active) {
+                                   self._state.texture = active ? this._state.renderBuf.getTexture() : null;
+                                }
                             }
                         }
                     });

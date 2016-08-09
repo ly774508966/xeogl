@@ -221,7 +221,7 @@
 
             bind: function (unit) {
                 if (self.buffer && self.buffer.texture) {
-                    self.gl.activeTexture(self.gl["TEXTURE" + unit]);
+                    self.gl.activeTexture(self.gl.TEXTURE0 + unit);
                     self.gl.bindTexture(self.gl.TEXTURE_2D, self.buffer.texture);
                     return true;
                 }
@@ -230,7 +230,7 @@
 
             unbind: function (unit) {
                 if (self.buffer && self.buffer.texture) {
-                    self.gl.activeTexture(self.gl["TEXTURE" + unit]);
+                    self.gl.activeTexture(self.gl.TEXTURE0 + unit);
                     self.gl.bindTexture(self.gl.TEXTURE_2D, null);
                 }
             }
