@@ -1,13 +1,19 @@
 /**
- A **Heightmap** defines spherical geometry for attached {{#crossLink "Entity"}}Entities{{/crossLink}}.
+ A **Heightmap** defines height map geometry for attached {{#crossLink "Entity"}}Entities{{/crossLink}}.
 
- ## Example
+ ## Examples
+
+ <ul>
+ <li>[Textured HeightmapGeometry](../../examples/#geometry_HeightmapGeometry)</li>
+ </ul>
+
+ ## Usage
 
  ````javascript
 
  ````
 
- @class Heightmap
+ @class HeightmapGeometry
  @module XEO
  @submodule geometry
  @constructor
