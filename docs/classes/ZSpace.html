@@ -251,7 +251,7 @@ keyboard. This component is also within xeoEngine&#39;s default <a href="../clas
 </code></pre>
 <p><strong>3. Enable ZSpace viewing</strong></p>
 <p>Now we can orbit, pan and zoom around the torus with the mouse and keyboard. Let&#39;s view it on a ZSpace display by
-dropping a ZSPace component into our default <a href="../classes/Scene.html" class="crosslink">Scene</a>.</p>
+dropping a ZSpace component into our default <a href="../classes/Scene.html" class="crosslink">Scene</a>.</p>
 <pre class="code prettyprint"><code class="lang-javascript">var zspace = new ZSpace();
 </code></pre>
 <p>The ZSpace component immediately activates, so at this point if we&#39;re running on a ZSpace device we&#39;ll have a stereo
@@ -312,7 +312,7 @@ zspace.on("stylusButton2", function(value) {
    var hit = zspace.scene.pick({
        pickSurface: true,
        origin: zspace.stylusPos,
-       direction: zspace.stylusOrientation
+       direction: zspace.stylusDir
    });
 
    if (hit) { // Picked an Entity
