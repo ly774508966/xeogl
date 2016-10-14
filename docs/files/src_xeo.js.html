@@ -68,6 +68,7 @@
                                 <li><a href="../classes/DepthTarget.html">DepthTarget</a></li>
                                 <li><a href="../classes/DirLight.html">DirLight</a></li>
                                 <li><a href="../classes/Entity.html">Entity</a></li>
+                                <li><a href="../classes/EntityHighlightEffect.html">EntityHighlightEffect</a></li>
                                 <li><a href="../classes/Fresnel.html">Fresnel</a></li>
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
@@ -114,6 +115,7 @@
                                 <li><a href="../classes/SplineCurve.html">SplineCurve</a></li>
                                 <li><a href="../classes/Stage.html">Stage</a></li>
                                 <li><a href="../classes/Stationary.html">Stationary</a></li>
+                                <li><a href="../classes/Stereo.html">Stereo</a></li>
                                 <li><a href="../classes/TeapotGeometry.html">TeapotGeometry</a></li>
                                 <li><a href="../classes/Texture.html">Texture</a></li>
                                 <li><a href="../classes/TorusGeometry.html">TorusGeometry</a></li>
@@ -139,6 +141,7 @@
                                 <li><a href="..//modules/controls.html">controls</a></li>
                                 <li><a href="..//modules/culling.html">culling</a></li>
                                 <li><a href="..//modules/curves.html">curves</a></li>
+                                <li><a href="..//modules/effects.html">effects</a></li>
                                 <li><a href="..//modules/entities.html">entities</a></li>
                                 <li><a href="..//modules/geometry.html">geometry</a></li>
                                 <li><a href="..//modules/importing.html">importing</a></li>
@@ -153,6 +156,7 @@
                                 <li><a href="..//modules/skyboxes.html">skyboxes</a></li>
                                 <li><a href="..//modules/transforms.html">transforms</a></li>
                                 <li><a href="..//modules/webvr.html">webvr</a></li>
+                                <li><a href="..//modules/xeo.html">xeo</a></li>
                                 <li><a href="..//modules/XEO.html">XEO</a></li>
                                 <li><a href="..//modules/xeogl.html">xeogl</a></li>
                             </ul>
@@ -337,6 +341,13 @@
          * @type {{String:XEO.Scene}}
          */
         this.scenes = {};
+
+        /**
+         * For each component type, a list of its supertypes, ordered upwards in the hierarchy.
+         * @type {{}}
+         * @private
+         */
+        this._superTypes = {};
 
         // Task queue, which is pumped on each frame;
         // tasks are pushed to it with calls to XEO.schedule
@@ -639,7 +650,6 @@
             return (typeof value === &#x27;string&#x27; || value instanceof String);
         },
 
-
         /**
          * Tests if the given value is a number
          * @param value
@@ -687,6 +697,47 @@
          */
         _isFunction: function (value) {
             return (typeof value === &quot;function&quot;);
+        },
+
+        /**
+         * Tests if the given value is a JavaScript JSON object, eg, &#x60;&#x60;&#x60;&#x60;{ foo: &quot;bar&quot; }&#x60;&#x60;&#x60;&#x60;.
+         * @param value
+         * @returns {boolean}
+         * @private
+         */
+        _isObject: (function () {
+            var objectConstructor = {}.constructor;
+            return function (value) {
+                return (!!value &amp;&amp; value.constructor === objectConstructor);
+            };
+        })(),
+
+        /**
+         * Tests if the given component type is a subtype of another component supertype.
+         * @param {String} type
+         * @param {String} superType
+         * @returns {boolean}
+         * @private
+         */
+        _isComponentType: function (type, superType) {
+
+            if (type === superType) {
+                return true;
+            }
+
+            var superTypes = this._superTypes[type];
+
+            if (!superTypes) {
+                return false;
+            }
+
+            for (var i = superTypes.length - 1; i &gt;= 0; i--) {
+                if (superTypes[i] === superType) {
+                    return true;
+                }
+            }
+
+            return false;
         },
 
         /** Returns a shallow copy

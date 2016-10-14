@@ -68,6 +68,7 @@
                                 <li><a href="../classes/DepthTarget.html">DepthTarget</a></li>
                                 <li><a href="../classes/DirLight.html">DirLight</a></li>
                                 <li><a href="../classes/Entity.html">Entity</a></li>
+                                <li><a href="../classes/EntityHighlightEffect.html">EntityHighlightEffect</a></li>
                                 <li><a href="../classes/Fresnel.html">Fresnel</a></li>
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
@@ -114,6 +115,7 @@
                                 <li><a href="../classes/SplineCurve.html">SplineCurve</a></li>
                                 <li><a href="../classes/Stage.html">Stage</a></li>
                                 <li><a href="../classes/Stationary.html">Stationary</a></li>
+                                <li><a href="../classes/Stereo.html">Stereo</a></li>
                                 <li><a href="../classes/TeapotGeometry.html">TeapotGeometry</a></li>
                                 <li><a href="../classes/Texture.html">Texture</a></li>
                                 <li><a href="../classes/TorusGeometry.html">TorusGeometry</a></li>
@@ -139,6 +141,7 @@
                                 <li><a href="..//modules/controls.html">controls</a></li>
                                 <li><a href="..//modules/culling.html">culling</a></li>
                                 <li><a href="..//modules/curves.html">curves</a></li>
+                                <li><a href="..//modules/effects.html">effects</a></li>
                                 <li><a href="..//modules/entities.html">entities</a></li>
                                 <li><a href="..//modules/geometry.html">geometry</a></li>
                                 <li><a href="..//modules/importing.html">importing</a></li>
@@ -153,6 +156,7 @@
                                 <li><a href="..//modules/skyboxes.html">skyboxes</a></li>
                                 <li><a href="..//modules/transforms.html">transforms</a></li>
                                 <li><a href="..//modules/webvr.html">webvr</a></li>
+                                <li><a href="..//modules/xeo.html">xeo</a></li>
                                 <li><a href="..//modules/XEO.html">XEO</a></li>
                                 <li><a href="..//modules/xeogl.html">xeogl</a></li>
                             </ul>
@@ -586,23 +590,7 @@
                 }
             }
 
-            if (this.type === type) {
-                return true;
-            }
-
-            var superTypes = this.superTypes;
-
-            if (!superTypes) {
-                return false;
-            }
-
-            for (var i = superTypes.length - 1; i &gt;= 0; i--) {
-                if (superTypes[i] === type) {
-                    return true;
-                }
-            }
-
-            return false;
+            return XEO._isComponentType(this.type, type);
         },
 
         /**
@@ -884,21 +872,51 @@
             var on = params.on;
             var recompiles = params.recompiles !== false;
 
-            if (component &amp;&amp; XEO._isNumeric(component) || XEO._isString(component)) {
+            // True when child given as config object, where parent manages its instantiation and destruction
+            var managingLifecycle = false;
 
-                // Component ID given
-                // Both numeric and string IDs are supported
+            if (component) {
 
-                var id = component;
+                if (XEO._isNumeric(component) || XEO._isString(component)) {
 
-                component = this.scene.components[id];
+                    // Component ID given
+                    // Both numeric and string IDs are supported
 
-                if (!component) {
+                    var id = component;
 
-                    // Quote string IDs in errors
+                    component = this.scene.components[id];
 
-                    this.error(&quot;Component not found: &quot; + XEO._inQuotes(id));
-                    return;
+                    if (!component) {
+
+                        // Quote string IDs in errors
+
+                        this.error(&quot;Component not found: &quot; + XEO._inQuotes(id));
+                        return;
+                    }
+
+                } else if (XEO._isObject(component)) {
+
+                    // Component config given
+
+                    var componentCfg = component;
+                    var componentType = componentCfg.type || type || &quot;XEO.Component&quot;;
+                    var componentClass = window[componentType];
+
+                    if (!componentClass) {
+                        this.error(&quot;Component type not found: &quot; + componentType);
+                        return;
+                    }
+
+                    if (type) {
+                        if (!XEO._isComponentType(componentType, type)) {
+                            this.error(&quot;Expected a &quot; + type + &quot; type or subtype, not a &quot; + componentType);
+                            return;
+                        }
+                    }
+
+                    component = new componentClass(componentCfg);
+
+                    managingLifecycle = true;
                 }
             }
 
@@ -912,7 +930,6 @@
                     this.error(&quot;Scene has no default component for &#x27;&quot; + name + &quot;&#x27;&quot;);
                     return null;
                 }
-
             }
 
             if (component) {
@@ -969,6 +986,14 @@
                         onDetached.scope ? onDetached.callback.call(onDetached.scope, component) : onDetached.callback(component);
                     }
                 }
+
+                if (oldAttachment.managingLifecycle) {
+
+                    // Note that we just unsubscribed from all events fired by the child
+                    // component, so destroying it won&#x27;t fire events back at us now.
+
+                    component.destroy();
+                }
             }
 
             if (component) {
@@ -978,7 +1003,8 @@
                 var attachment = {
                     params: params,
                     component: component,
-                    subs: []
+                    subs: [],
+                    managingLifecycle: managingLifecycle
                 };
 
                 attachment.subs.push(
@@ -1258,7 +1284,7 @@
             var i;
             var len;
 
-            if (!this._attachments) {
+            if (this._attachments) {
                 for (id in this._attachments) {
                     if (this._attachments.hasOwnProperty(id)) {
 
@@ -1271,6 +1297,14 @@
 
                         for (i = 0, len = subs.length; i &lt; len; i++) {
                             component.off(subs[i]);
+                        }
+
+                        if (attachment.managingLifecycle) {
+
+                            // Note that we just unsubscribed from all events fired by the child
+                            // component, so destroying it won&#x27;t fire events back at us now.
+
+                            component.destroy();
                         }
                     }
                 }

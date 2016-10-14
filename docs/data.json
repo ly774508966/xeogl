@@ -1028,6 +1028,33 @@
                 "XEO": 1
             }
         },
+        "examples/js/effects/_module.js": {
+            "name": "examples/js/effects/_module.js",
+            "modules": {
+                "effects": 1
+            },
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "examples/js/effects/entityHighlightEffect.js": {
+            "name": "examples/js/effects/entityHighlightEffect.js",
+            "modules": {},
+            "classes": {
+                "EntityHighlightEffect": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "examples/js/effects/stereo.js": {
+            "name": "examples/js/effects/stereo.js",
+            "modules": {},
+            "classes": {
+                "Stereo": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "examples/js/webvr/_module.js": {
             "name": "examples/js/webvr/_module.js",
             "modules": {
@@ -1228,6 +1255,7 @@
                 "rendering": 1,
                 "shaders": 1,
                 "transforms": 1,
+                "effects": 1,
                 "webvr": 1,
                 "curves": 1,
                 "paths": 1,
@@ -1236,6 +1264,7 @@
             "classes": {
                 "Visibility": 1,
                 "PhongMaterial": 1,
+                "Stereo": 1,
                 "WebVR": 1,
                 "CameraFlight": 1,
                 "MorphTargets": 1,
@@ -1709,6 +1738,33 @@
             "file": "src/transforms/translate.js",
             "line": 1,
             "description": "Modelling transform components."
+        },
+        "effects": {
+            "name": "effects",
+            "submodules": {},
+            "classes": {
+                "EntityHighlightEffect": 1,
+                "Stereo": 1
+            },
+            "fors": {},
+            "is_submodule": 1,
+            "namespaces": {},
+            "module": "XEO",
+            "namespace": "",
+            "file": "examples/js/effects/stereo.js",
+            "line": 1,
+            "description": "Components for viewing effects."
+        },
+        "xeo": {
+            "name": "xeo",
+            "submodules": {},
+            "classes": {
+                "EntityHighlightEffect": 1
+            },
+            "fors": {},
+            "namespaces": {},
+            "file": "examples/js/effects/entityHighlightEffect.js",
+            "line": 1
         },
         "webvr": {
             "name": "webvr",
@@ -6408,6 +6464,145 @@
             "static": 1,
             "author": "xeolabs / http://xeolabs.com/"
         },
+        "EntityHighlightEffect": {
+            "name": "EntityHighlightEffect",
+            "shortname": "EntityHighlightEffect",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "xeo",
+            "namespace": "",
+            "file": "examples/js/effects/entityHighlightEffect.js",
+            "line": 1,
+            "description": "An **EntityHighlightEffect** highlights a single {{#crossLink \"Entity\"}}Entities{{/crossLink}}.\n\n## Examples\n\n<ul>\n<li>[EntityHighlightEffect example](../../examples/#effects_EntityHighlightEffect)</li>\n</ul>\n\n## Usage\n\n````javascript\n\n// Create an entity\n\nvar entity = new XEO.Entity({\n    geometry: new XEO.TeapotGeometry(),\n    material: new XEO.PhongMaterial({\n        ambient: [0.9, 0.3, 0.9],\n        diffuse: [0.4, 0.4, 0.9],\n        shininess: 30\n    }),\n    transform: new XEO.Rotate({\n        xyz: [1, 0, 0],\n        angle: -90,\n        parent: new XEO.Translate({\n            xyz: [0, -20, 0]\n        })\n    }),\n    modes: new XEO.Modes({\n        backfaces: true  // Show backfaces, since the lid has a big gap around it\n    })\n});\n\n// Position the default camera\n\nvar view = entity.scene.camera.view;\nview.eye = [0, 40, -80];\n\n// Highlight the entity\n\nvar entityHighlight = new XEO.EntityHighlightEffect();\n\nentityHighlight.entity = entity;\nentityHighlight.active = true;\n````",
+            "submodule": "effects",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "scene",
+                    "description": "Parent {{#crossLink \"Scene\"}}Scene{{/crossLink}} - creates this EntityHighlightEffect in the default\n{{#crossLink \"Scene\"}}Scene{{/crossLink}} when omitted.",
+                    "type": "Scene",
+                    "optional": true
+                },
+                {
+                    "name": "cfg",
+                    "description": "Configs",
+                    "type": "*",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "id",
+                            "description": "Optional ID, unique among all components in the parent {{#crossLink \"Scene\"}}Scene{{/crossLink}},\ngenerated automatically when omitted.",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "meta",
+                            "description": "Optional map of user-defined metadata to attach to this EntityHighlightEffect.",
+                            "type": "String:Object",
+                            "optional": true
+                        },
+                        {
+                            "name": "entity",
+                            "description": "ID or instance of the {{#crossLink \"Entity\"}}{{/crossLink}} to highlight with this EntityHighlightEffect.",
+                            "type": "String|Number|Entity",
+                            "optional": true
+                        },
+                        {
+                            "name": "active",
+                            "description": "Flag which indicates whether this EntityHighlightEffect is active or not.",
+                            "optional": true,
+                            "optdefault": "true"
+                        }
+                    ]
+                }
+            ],
+            "extends": "Entity"
+        },
+        "Stereo": {
+            "name": "Stereo",
+            "shortname": "Stereo",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "XEO",
+            "namespace": "",
+            "file": "examples/js/effects/stereo.js",
+            "line": 1,
+            "description": "A **Stereo** sets up a stereo view for its Scene.\n\n## Usage\n\nStereo view of an Entity using Scene's default Camera and viewport:\n\n````javascript\n// Both the Entity and the Stereo use their Scene's default Camera and Viewport\n\nvar entity = new XEO.Entity({\n    geometry: new XEO.BoxGeometry()\n});\n\nvar stereo = new XEO.Stereo({\n    eyeSep: 0.2, // Default\n    focalLength: 20, // Default\n    aperture: 45, // Default\n    active: true // Default\n});\n````\n\nStereo view of an Entity with custom Camera and viewport:\n\n````javascript\nvar camera = new XEO.Camera({\n    view: new XEO.Lookat({\n        eye: [0, 0, 10],\n        look: [0, 0, 0],\n        up: [0, 1, 0]\n    }),\n    project: new XEO.Perspective({\n        fovy: 60,\n        near: 0.1,\n        far: 1000\n    })\n});\n\nvar viewport = new XEO.Viewport();\n\nvar entity = new XEO.Entity({\n    camera: camera,\n    viewport: viewport,\n    geometry: new XEO.BoxGeometry()\n});\n\nvar stereo = new XEO.Stereo({\n    camera: camera,\n    viewport: viewport,\n    eyeSep: 0.2, // Default\n    focalLength: 20, // Default\n    aperture: 45, // Default\n    active: true // Default\n});\n````",
+            "submodule": "effects",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "scene",
+                    "description": "Parent {{#crossLink \"Scene\"}}Scene{{/crossLink}} - creates this Stereo in the default\n{{#crossLink \"Scene\"}}Scene{{/crossLink}} when omitted.",
+                    "type": "Scene",
+                    "optional": true
+                },
+                {
+                    "name": "cfg",
+                    "description": "Configs",
+                    "type": "*",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "id",
+                            "description": "Optional ID, unique among all components in the parent {{#crossLink \"Scene\"}}Scene{{/crossLink}},\ngenerated automatically when omitted.",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "meta",
+                            "description": "Optional map of user-defined metadata to attach to this Stereo.",
+                            "type": "String:Object",
+                            "optional": true
+                        },
+                        {
+                            "name": "camera",
+                            "description": "ID or instance of a {{#crossLink \"Camera\"}}Camera{{/crossLink}} for this Stereo.\nMust be within the same {{#crossLink \"Scene\"}}Scene{{/crossLink}} as this Stereo. Defaults to the\nparent {{#crossLink \"Scene\"}}Scene{{/crossLink}}'s default instance, {{#crossLink \"Scene/camera:property\"}}camera{{/crossLink}}.",
+                            "type": "String|Camera",
+                            "optional": true
+                        },
+                        {
+                            "name": "viewport",
+                            "description": "ID or instance of a {{#crossLink \"Viewport\"}}Viewport{{/crossLink}} for this Stereo.\nMust be within the same {{#crossLink \"Scene\"}}Scene{{/crossLink}} as this Stereo. Defaults to the\nparent {{#crossLink \"Scene\"}}Scene{{/crossLink}}'s default instance, {{#crossLink \"Scene/viewport:property\"}}viewport{{/crossLink}}.",
+                            "type": "String|Viewport",
+                            "optional": true
+                        },
+                        {
+                            "name": "eyeSep",
+                            "description": "Number Eye separation distance.",
+                            "optional": true,
+                            "optdefault": "0.2"
+                        },
+                        {
+                            "name": "focalLength",
+                            "description": "Focal length.",
+                            "optional": true,
+                            "optdefault": "20"
+                        },
+                        {
+                            "name": "aperture",
+                            "description": "Aperture angle in degrees.",
+                            "optional": true,
+                            "optdefault": "45"
+                        },
+                        {
+                            "name": "active",
+                            "description": "Whether or not this Stereo is active.",
+                            "type": "Boolean",
+                            "optional": true,
+                            "optdefault": "true"
+                        }
+                    ]
+                }
+            ],
+            "extends": "Entity"
+        },
         "Cardboard": {
             "name": "Cardboard",
             "shortname": "Cardboard",
@@ -8528,7 +8723,7 @@
         },
         {
             "file": "src/_utils/inheritance.js",
-            "line": 112,
+            "line": 116,
             "description": "Returns a new UUID.",
             "itemtype": "method",
             "name": "createUUID",
@@ -18801,13 +18996,14 @@
             "itemtype": "property",
             "name": "active",
             "type": "Boolean",
+            "default": "true",
             "class": "DepthBuf",
             "module": "XEO",
             "submodule": "rendering"
         },
         {
             "file": "src/rendering/depthBuf.js",
-            "line": 167,
+            "line": 172,
             "description": "Fired whenever this DepthBuf's {{#crossLink \"DepthBuf/active:property\"}}{{/crossLink}} property changes.",
             "itemtype": "event",
             "name": "active",
@@ -18823,7 +19019,7 @@
         },
         {
             "file": "src/rendering/depthBuf.js",
-            "line": 181,
+            "line": 186,
             "description": "Lookup GL depth function enums",
             "access": "private",
             "tagname": "",
@@ -20314,7 +20510,7 @@
         },
         {
             "file": "src/component.js",
-            "line": 414,
+            "line": 398,
             "description": "Initializes this component",
             "params": [
                 {
@@ -20329,7 +20525,7 @@
         },
         {
             "file": "src/component.js",
-            "line": 422,
+            "line": 406,
             "description": "Fires an event on this component.\n\nNotifies existing subscribers to the event, retains the event to give to\nany subsequent notifications on that location as they are made.",
             "itemtype": "method",
             "name": "fire",
@@ -20357,7 +20553,7 @@
         },
         {
             "file": "src/component.js",
-            "line": 471,
+            "line": 455,
             "description": "Subscribes to an event on this component.\n\nThe callback is be called with this component as scope.",
             "itemtype": "method",
             "name": "on",
@@ -20389,7 +20585,7 @@
         },
         {
             "file": "src/component.js",
-            "line": 514,
+            "line": 498,
             "description": "Cancels an event subscription that was previously made with {{#crossLink \"Component/on:method\"}}{{/crossLink}} or\n{{#crossLink \"Component/once:method\"}}{{/crossLink}}.",
             "itemtype": "method",
             "name": "off",
@@ -20405,7 +20601,7 @@
         },
         {
             "file": "src/component.js",
-            "line": 539,
+            "line": 523,
             "description": "Subscribes to the next occurrence of the given event, then un-subscribes as soon as the event is handled.\n\nThis is equivalent to calling {{#crossLink \"Component/on:method\"}}{{/crossLink}}, and then calling\n{{#crossLink \"Component/off:method\"}}{{/crossLink}} inside the callback function.",
             "itemtype": "method",
             "name": "once",
@@ -20433,7 +20629,7 @@
         },
         {
             "file": "src/component.js",
-            "line": 560,
+            "line": 544,
             "description": "Logs a console debugging message for this component.\n\nThe console message will have this format: *````[LOG] [<component type> <component id>: <message>````*\n\nAlso fires the message as a {{#crossLink \"Scene/log:event\"}}{{/crossLink}} event on the\nparent {{#crossLink \"Scene\"}}Scene{{/crossLink}}.",
             "itemtype": "method",
             "name": "log",
@@ -20449,7 +20645,7 @@
         },
         {
             "file": "src/component.js",
-            "line": 585,
+            "line": 569,
             "description": "Logs a warning for this component to the JavaScript console.\n\nThe console message will have this format: *````[WARN] [<component type> =<component id>: <message>````*\n\nAlso fires the message as a {{#crossLink \"Scene/warn:event\"}}{{/crossLink}} event on the\nparent {{#crossLink \"Scene\"}}Scene{{/crossLink}}.",
             "itemtype": "method",
             "name": "warn",
@@ -20465,7 +20661,7 @@
         },
         {
             "file": "src/component.js",
-            "line": 605,
+            "line": 589,
             "description": "Logs an error for this component to the JavaScript console.\n\nThe console message will have this format: *````[ERROR] [<component type> =<component id>: <message>````*\n\nAlso fires the message as an {{#crossLink \"Scene/error:event\"}}{{/crossLink}} event on the\nparent {{#crossLink \"Scene\"}}Scene{{/crossLink}}.",
             "itemtype": "method",
             "name": "error",
@@ -20481,7 +20677,7 @@
         },
         {
             "file": "src/component.js",
-            "line": 625,
+            "line": 609,
             "description": "Creates a clone of this component.\n\nThe clone will have the same properties as the original, except where\noverridden in the given optional configs.\n\nThe clone will share (by reference) the components of the original, unless overridden.\n\nFor example, if this component is an {{#crossLink \"Entity\"}}{{/crossLink}}, then the clone\nwill be attached to the **same** instances of {{#crossLink \"PhoneMaterial\"}}{{/crossLink}},\n{{#crossLink \"Camera\"}}{{/crossLink}} etc as this component, unless it supplies its own\ninstances for those via the configs.",
             "params": [
                 {
@@ -20500,7 +20696,7 @@
         },
         {
             "file": "src/component.js",
-            "line": 657,
+            "line": 641,
             "description": "Adds a child component to this.\nWhen component not given, attaches the scene's default instance for the given name (if any).\nPublishes the new child component on this component, keyed to the given name.",
             "params": [
                 {
@@ -20594,7 +20790,7 @@
         },
         {
             "file": "src/component.js",
-            "line": 861,
+            "line": 883,
             "description": "Convenience method for creating a Component within this Component's {{#crossLink \"Scene\"}}{{/crossLink}}.\n\nYou would typically use this method to conveniently instantiate components that you'd want to\nshare (ie. \"instance\") among your {{#crossLink \"Entity\"}}Entities{{/crossLink}}.\n\nThe method is given a component type, configuration and optional instance ID, like so:\n\n````javascript\nvar material = myComponent.create(XEO.PhongMaterial, {\n     diffuse: [1,0,0],\n     specular: [1,1,0]\n}, \"myMaterial\");\n````\n\nThe first time you call this method for the given ````type```` and ````instanceId````, this method will create the\n{{#crossLink \"PhongMaterial\"}}{{/crossLink}}, passing the given  attributes to the component's constructor.\n\nIf you call this method again, specifying the same ````type```` and ````instanceId````, the method will return the same\ncomponent instance that it returned the first time, and will ignore the configuration:\n\n````javascript\nvar material2 = component.create(XEO.PhongMaterial, { specular: [1,1,0] }, \"myMaterial\");\n````\n\nSo in this example, our {{#crossLink \"PhongMaterial\"}}{{/crossLink}} will continue to have the red specular\nand diffuse color that we specified the first time.\n\nEach time you call this method with the same ````type```` and ````instanceId````, the Scene will internally increment a\nreference count for the component instance. You can release the shared component instance with a call to\n{{#crossLink \"Scene/putSharedComponent:method\"}}{{/crossLink}}, and once you have released it as many\ntimes as you got it, the Scene will destroy the component.",
             "itemtype": "method",
             "name": "create",
@@ -20626,7 +20822,7 @@
         },
         {
             "file": "src/component.js",
-            "line": 936,
+            "line": 958,
             "description": "Protected method, called by sub-classes to queue a call to _update().",
             "access": "protected",
             "tagname": "",
@@ -20644,7 +20840,7 @@
         },
         {
             "file": "src/component.js",
-            "line": 952,
+            "line": 974,
             "access": "private",
             "tagname": "",
             "class": "Component",
@@ -20652,7 +20848,7 @@
         },
         {
             "file": "src/component.js",
-            "line": 964,
+            "line": 986,
             "description": "Protected virtual template method, optionally implemented\nby sub-classes to perform a scheduled task.",
             "access": "protected",
             "tagname": "",
@@ -20661,7 +20857,7 @@
         },
         {
             "file": "src/component.js",
-            "line": 972,
+            "line": 994,
             "description": "Protected template method, implemented by sub-classes to compile\ntheir state into their Scene's XEO.renderer.Renderer.",
             "access": "protected",
             "tagname": "",
@@ -20670,7 +20866,7 @@
         },
         {
             "file": "src/component.js",
-            "line": 983,
+            "line": 1005,
             "description": "JSON object containing the state of this Component.",
             "itemtype": "property",
             "name": "json",
@@ -20681,7 +20877,7 @@
         },
         {
             "file": "src/component.js",
-            "line": 1011,
+            "line": 1033,
             "description": "String containing the serialized JSON state of this Component.",
             "itemtype": "property",
             "name": "string",
@@ -20692,7 +20888,7 @@
         },
         {
             "file": "src/component.js",
-            "line": 1026,
+            "line": 1048,
             "description": "Experimental: string containing a JavaScript expression that would instantiate this Component.",
             "itemtype": "property",
             "name": "string",
@@ -20703,7 +20899,7 @@
         },
         {
             "file": "src/component.js",
-            "line": 1044,
+            "line": 1066,
             "description": "Destroys this component.\n\nFires a {{#crossLink \"Component/destroyed:event\"}}{{/crossLink}} event on this Component.\n\nAutomatically disassociates this component from other components, causing them to fall back on any\ndefaults that this component overrode on them.\n\nTODO: describe effect with respect to #create",
             "itemtype": "method",
             "name": "destroy",
@@ -20712,7 +20908,7 @@
         },
         {
             "file": "src/component.js",
-            "line": 1106,
+            "line": 1136,
             "description": "Fired when this Component is destroyed.",
             "itemtype": "event",
             "name": "destroyed",
@@ -20721,7 +20917,7 @@
         },
         {
             "file": "src/component.js",
-            "line": 1114,
+            "line": 1144,
             "description": "Protected template method, implemented by sub-classes\nto clean up just before the component is destroyed.",
             "access": "protected",
             "tagname": "",
@@ -21426,7 +21622,18 @@
         },
         {
             "file": "src/xeo.js",
-            "line": 244,
+            "line": 147,
+            "description": "For each component type, a list of its supertypes, ordered upwards in the hierarchy.",
+            "type": "{{}}",
+            "access": "private",
+            "tagname": "",
+            "class": "XEO",
+            "module": "XEO",
+            "namespace": "XEO"
+        },
+        {
+            "file": "src/xeo.js",
+            "line": 251,
             "description": "Fired on each game loop iteration.",
             "itemtype": "event",
             "name": "tick",
@@ -21463,7 +21670,7 @@
         },
         {
             "file": "src/xeo.js",
-            "line": 280,
+            "line": 287,
             "description": "The default {{#crossLink \"Scene\"}}Scene{{/crossLink}}.\n\nComponents created without an explicit parent {{#crossLink \"Scene\"}}Scene{{/crossLink}} will be created within this\n{{#crossLink \"Scene\"}}Scene{{/crossLink}} by default.\n\nxeoEngine creates the default {{#crossLink \"Scene\"}}Scene{{/crossLink}} as soon as you either\nreference this property for the first time, or create your first {{#crossLink \"Entity\"}}Entity{{/crossLink}} without\na specified {{#crossLink \"Scene\"}}Scene{{/crossLink}}.",
             "itemtype": "property",
             "name": "scene",
@@ -21475,7 +21682,7 @@
         },
         {
             "file": "src/xeo.js",
-            "line": 305,
+            "line": 312,
             "description": "Registers a scene on xeoEngine.\nThis is called within the XEO.Scene constructor.",
             "itemtype": "method",
             "name": "_addScene",
@@ -21494,7 +21701,7 @@
         },
         {
             "file": "src/xeo.js",
-            "line": 352,
+            "line": 359,
             "description": "Schedule a task for xeoEngine to run at the next frame.\n\nInternally, this pushes the task to a FIFO queue. Within each frame interval, xeoEngine processes the queue\nfor a certain period of time, popping tasks and running them. After each frame interval, tasks that did not\nget a chance to run during the task are left in the queue to be run next time.",
             "itemtype": "method",
             "name": "schedule",
@@ -21517,7 +21724,7 @@
         },
         {
             "file": "src/xeo.js",
-            "line": 401,
+            "line": 408,
             "description": "Destroys all user-created {{#crossLink \"Scene\"}}Scenes{{/crossLink}} and\nclears the default {{#crossLink \"Scene\"}}Scene{{/crossLink}}.",
             "itemtype": "method",
             "name": "clear",
@@ -21528,7 +21735,7 @@
         },
         {
             "file": "src/xeo.js",
-            "line": 430,
+            "line": 437,
             "description": "Tests if the given object is an array",
             "access": "private",
             "tagname": "",
@@ -21538,7 +21745,7 @@
         },
         {
             "file": "src/xeo.js",
-            "line": 438,
+            "line": 445,
             "description": "Tests if the given value is a string",
             "params": [
                 {
@@ -21558,7 +21765,7 @@
         },
         {
             "file": "src/xeo.js",
-            "line": 449,
+            "line": 455,
             "description": "Tests if the given value is a number",
             "params": [
                 {
@@ -21578,7 +21785,7 @@
         },
         {
             "file": "src/xeo.js",
-            "line": 459,
+            "line": 465,
             "description": "Tests if the given value is an ID",
             "params": [
                 {
@@ -21598,7 +21805,7 @@
         },
         {
             "file": "src/xeo.js",
-            "line": 469,
+            "line": 475,
             "description": "Tests if the given components are the same, where the components can be either IDs or instances.",
             "params": [
                 {
@@ -21622,7 +21829,7 @@
         },
         {
             "file": "src/xeo.js",
-            "line": 488,
+            "line": 494,
             "description": "Tests if the given value is a function",
             "params": [
                 {
@@ -21642,22 +21849,18 @@
         },
         {
             "file": "src/xeo.js",
-            "line": 498,
-            "class": "XEO",
-            "module": "XEO",
-            "namespace": "XEO"
-        },
-        {
-            "file": "src/xeo.js",
             "line": 504,
-            "class": "XEO",
-            "module": "XEO",
-            "namespace": "XEO"
-        },
-        {
-            "file": "src/xeo.js",
-            "line": 515,
-            "description": "Add non-null/defined properties of o to o2",
+            "description": "Tests if the given value is a JavaScript JSON object, eg, ````{ foo: \"bar\" }````.",
+            "params": [
+                {
+                    "name": "value",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
             "access": "private",
             "tagname": "",
             "class": "XEO",
@@ -21666,8 +21869,24 @@
         },
         {
             "file": "src/xeo.js",
-            "line": 530,
-            "description": "Add properties of o to o2 where undefined or null on o2",
+            "line": 517,
+            "description": "Tests if the given component type is a subtype of another component supertype.",
+            "params": [
+                {
+                    "name": "type",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "superType",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
             "access": "private",
             "tagname": "",
             "class": "XEO",
@@ -21677,6 +21896,40 @@
         {
             "file": "src/xeo.js",
             "line": 545,
+            "class": "XEO",
+            "module": "XEO",
+            "namespace": "XEO"
+        },
+        {
+            "file": "src/xeo.js",
+            "line": 551,
+            "class": "XEO",
+            "module": "XEO",
+            "namespace": "XEO"
+        },
+        {
+            "file": "src/xeo.js",
+            "line": 562,
+            "description": "Add non-null/defined properties of o to o2",
+            "access": "private",
+            "tagname": "",
+            "class": "XEO",
+            "module": "XEO",
+            "namespace": "XEO"
+        },
+        {
+            "file": "src/xeo.js",
+            "line": 577,
+            "description": "Add properties of o to o2 where undefined or null on o2",
+            "access": "private",
+            "tagname": "",
+            "class": "XEO",
+            "module": "XEO",
+            "namespace": "XEO"
+        },
+        {
+            "file": "src/xeo.js",
+            "line": 592,
             "description": "Returns true if the given map is empty.",
             "params": [
                 {
@@ -21696,7 +21949,7 @@
         },
         {
             "file": "src/xeo.js",
-            "line": 560,
+            "line": 607,
             "description": "Returns the given ID as a string, in quotes if the ID was a string to begin with.\n\nThis is useful for logging IDs.",
             "params": [
                 {
@@ -21714,6 +21967,227 @@
             "class": "XEO",
             "module": "XEO",
             "namespace": "XEO"
+        },
+        {
+            "file": "examples/js/effects/entityHighlightEffect.js",
+            "line": 105,
+            "description": "ID or instance of the {{#crossLink \"Entity\"}}{{/crossLink}} to highlight with this EntityHighlightEffect.\n\nFires a {{#crossLink \"EntityHighlightEffect/entity:event\"}}{{/crossLink}} event on change.",
+            "itemtype": "property",
+            "name": "entity",
+            "type": "Entity",
+            "class": "EntityHighlightEffect",
+            "module": "xeo",
+            "submodule": "effects"
+        },
+        {
+            "file": "examples/js/effects/entityHighlightEffect.js",
+            "line": 119,
+            "description": "Fired whenever this Highlights's {{#crossLink \"EntityHighlightEffect/entity:property\"}}{{/crossLink}} property changes.",
+            "itemtype": "event",
+            "name": "entity",
+            "params": [
+                {
+                    "name": "value",
+                    "description": "The property's new value"
+                }
+            ],
+            "class": "EntityHighlightEffect",
+            "module": "xeo",
+            "submodule": "effects"
+        },
+        {
+            "file": "examples/js/effects/entityHighlightEffect.js",
+            "line": 162,
+            "description": "Flag which indicates whether this EntityHighlightEffect is active or not.\n\nFires an {{#crossLink \"EntityHighlightEffect/active:event\"}}{{/crossLink}} event on change.",
+            "itemtype": "property",
+            "name": "active",
+            "type": "Boolean",
+            "default": "true",
+            "class": "EntityHighlightEffect",
+            "module": "xeo",
+            "submodule": "effects"
+        },
+        {
+            "file": "examples/js/effects/entityHighlightEffect.js",
+            "line": 185,
+            "description": "Fired whenever this EntityHighlightEffect's {{#crossLink \"EntityHighlightEffect/active:property\"}}{{/crossLink}} property changes.",
+            "itemtype": "event",
+            "name": "active",
+            "params": [
+                {
+                    "name": "value",
+                    "description": "The property's new value"
+                }
+            ],
+            "class": "EntityHighlightEffect",
+            "module": "xeo",
+            "submodule": "effects"
+        },
+        {
+            "file": "examples/js/effects/stereo.js",
+            "line": 99,
+            "description": "The {{#crossLink \"Camera\"}}{{/crossLink}} attached to this Stereo.\n\nThis Stereo will attach a {{#crossLink \"Frustum\"}}{{/crossLink}} to its\n{{#crossLink \"Camera\"}}{{/crossLink}} if the {{#crossLink \"Camera\"}}Camera{{/crossLink}} does not have\none already, replacing the projection transform component that was already attached.\n\nMust be within the same {{#crossLink \"Scene\"}}{{/crossLink}} as this Stereo. Defaults to the parent\n{{#crossLink \"Scene\"}}Scene's{{/crossLink}} default {{#crossLink \"Scene/camera:property\"}}camera{{/crossLink}} when set to\na null or undefined value.",
+            "itemtype": "property",
+            "name": "camera",
+            "type": "Camera",
+            "class": "Stereo",
+            "module": "XEO",
+            "submodule": "effects"
+        },
+        {
+            "file": "examples/js/effects/stereo.js",
+            "line": 117,
+            "description": "Fired whenever this Stereo's {{#crossLink \"Stereo/camera:property\"}}{{/crossLink}}\nproperty changes.",
+            "itemtype": "event",
+            "name": "camera",
+            "params": [
+                {
+                    "name": "value",
+                    "description": "The property's new value"
+                }
+            ],
+            "class": "Stereo",
+            "module": "XEO",
+            "submodule": "effects"
+        },
+        {
+            "file": "examples/js/effects/stereo.js",
+            "line": 146,
+            "description": "The {{#crossLink \"Viewport\"}}{{/crossLink}} attached to this Stereo.\n\nMust be within the same {{#crossLink \"Scene\"}}{{/crossLink}} as this Stereo. Defaults to the parent\n{{#crossLink \"Scene\"}}Scene's{{/crossLink}} default {{#crossLink \"Scene/viewport:property\"}}Viewport{{/crossLink}} when set to\na null or undefined value.",
+            "itemtype": "property",
+            "name": "Viewport",
+            "type": "Viewport",
+            "class": "Stereo",
+            "module": "XEO",
+            "submodule": "effects"
+        },
+        {
+            "file": "examples/js/effects/stereo.js",
+            "line": 160,
+            "description": "Fired whenever this Stereo's {{#crossLink \"Stereo/Viewport:property\"}}{{/crossLink}}\nproperty changes.",
+            "itemtype": "event",
+            "name": "Viewport",
+            "params": [
+                {
+                    "name": "value",
+                    "description": "The property's new value"
+                }
+            ],
+            "class": "Stereo",
+            "module": "XEO",
+            "submodule": "effects"
+        },
+        {
+            "file": "examples/js/effects/stereo.js",
+            "line": 182,
+            "description": "Eye separation distance.\n\nFires an {{#crossLink \"Stereo/eyeSep:event\"}}{{/crossLink}} event on change.",
+            "itemtype": "property",
+            "name": "eyeSep",
+            "type": "Number",
+            "default": "0.2",
+            "class": "Stereo",
+            "module": "XEO",
+            "submodule": "effects"
+        },
+        {
+            "file": "examples/js/effects/stereo.js",
+            "line": 203,
+            "description": "Fired whenever this Stereo's {{#crossLink \"Stereo/eyeSep:property\"}}{{/crossLink}} property changes.",
+            "itemtype": "event",
+            "name": "eyeSep",
+            "params": [
+                {
+                    "name": "value",
+                    "description": "The property's new value"
+                }
+            ],
+            "class": "Stereo",
+            "module": "XEO",
+            "submodule": "effects"
+        },
+        {
+            "file": "examples/js/effects/stereo.js",
+            "line": 216,
+            "description": "Focal length.\n\nFires an {{#crossLink \"Stereo/focalLength:event\"}}{{/crossLink}} event on change.",
+            "itemtype": "property",
+            "name": "focalLength",
+            "type": "Number",
+            "default": "20",
+            "class": "Stereo",
+            "module": "XEO",
+            "submodule": "effects"
+        },
+        {
+            "file": "examples/js/effects/stereo.js",
+            "line": 237,
+            "description": "Fired whenever this Stereo's {{#crossLink \"Stereo/focalLength:property\"}}{{/crossLink}} property changes.",
+            "itemtype": "event",
+            "name": "focalLength",
+            "params": [
+                {
+                    "name": "value",
+                    "description": "The property's new value"
+                }
+            ],
+            "class": "Stereo",
+            "module": "XEO",
+            "submodule": "effects"
+        },
+        {
+            "file": "examples/js/effects/stereo.js",
+            "line": 250,
+            "description": "Aperture angle in degrees.\n\nFires an {{#crossLink \"Stereo/aperture:event\"}}{{/crossLink}} event on change.",
+            "itemtype": "property",
+            "name": "aperture",
+            "type": "Number",
+            "default": "45",
+            "class": "Stereo",
+            "module": "XEO",
+            "submodule": "effects"
+        },
+        {
+            "file": "examples/js/effects/stereo.js",
+            "line": 271,
+            "description": "Fired whenever this Stereo's {{#crossLink \"Stereo/aperture:property\"}}{{/crossLink}} property changes.",
+            "itemtype": "event",
+            "name": "aperture",
+            "params": [
+                {
+                    "name": "value",
+                    "description": "The property's new value"
+                }
+            ],
+            "class": "Stereo",
+            "module": "XEO",
+            "submodule": "effects"
+        },
+        {
+            "file": "examples/js/effects/stereo.js",
+            "line": 284,
+            "description": "Flag which indicates whether this Stereo is active or not.\n\nFires an {{#crossLink \"Stereo/active:event\"}}{{/crossLink}} event on change.",
+            "itemtype": "property",
+            "name": "active",
+            "type": "Boolean",
+            "default": "true",
+            "class": "Stereo",
+            "module": "XEO",
+            "submodule": "effects"
+        },
+        {
+            "file": "examples/js/effects/stereo.js",
+            "line": 307,
+            "description": "Fired whenever this Stereo's {{#crossLink \"Stereo/active:property\"}}{{/crossLink}} property changes.",
+            "itemtype": "event",
+            "name": "active",
+            "params": [
+                {
+                    "name": "value",
+                    "description": "The property's new value"
+                }
+            ],
+            "class": "Stereo",
+            "module": "XEO",
+            "submodule": "effects"
         },
         {
             "file": "examples/js/webvr/cardboard.js",
@@ -24096,11 +24570,11 @@
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " src/component.js:625"
+            "line": " src/component.js:609"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " src/component.js:861"
+            "line": " src/component.js:883"
         },
         {
             "message": "replacing incorrect tag: returns with return",
@@ -24112,35 +24586,43 @@
         },
         {
             "message": "unknown tag: demo",
-            "line": " src/xeo.js:401"
+            "line": " src/xeo.js:408"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " src/xeo.js:438"
+            "line": " src/xeo.js:445"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " src/xeo.js:449"
+            "line": " src/xeo.js:455"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " src/xeo.js:459"
+            "line": " src/xeo.js:465"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " src/xeo.js:469"
+            "line": " src/xeo.js:475"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " src/xeo.js:488"
+            "line": " src/xeo.js:494"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " src/xeo.js:545"
+            "line": " src/xeo.js:504"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " src/xeo.js:560"
+            "line": " src/xeo.js:517"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/xeo.js:592"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/xeo.js:607"
         },
         {
             "message": "replacing incorrect tag: returns with return",
@@ -24752,7 +25234,7 @@
         },
         {
             "message": "Missing item type\nLookup GL depth function enums",
-            "line": " src/rendering/depthBuf.js:181"
+            "line": " src/rendering/depthBuf.js:186"
         },
         {
             "message": "Missing item type\nRotate 'eye' about 'look', around the 'up' vector",
@@ -24780,35 +25262,35 @@
         },
         {
             "message": "Missing item type\nInitializes this component",
-            "line": " src/component.js:414"
+            "line": " src/component.js:398"
         },
         {
             "message": "Missing item type\nCreates a clone of this component.\n\nThe clone will have the same properties as the original, except where\noverridden in the given optional configs.\n\nThe clone will share (by reference) the components of the original, unless overridden.\n\nFor example, if this component is an {{#crossLink \"Entity\"}}{{/crossLink}}, then the clone\nwill be attached to the **same** instances of {{#crossLink \"PhoneMaterial\"}}{{/crossLink}},\n{{#crossLink \"Camera\"}}{{/crossLink}} etc as this component, unless it supplies its own\ninstances for those via the configs.",
-            "line": " src/component.js:625"
+            "line": " src/component.js:609"
         },
         {
             "message": "Missing item type\nAdds a child component to this.\nWhen component not given, attaches the scene's default instance for the given name (if any).\nPublishes the new child component on this component, keyed to the given name.",
-            "line": " src/component.js:657"
+            "line": " src/component.js:641"
         },
         {
             "message": "Missing item type\nProtected method, called by sub-classes to queue a call to _update().",
-            "line": " src/component.js:936"
+            "line": " src/component.js:958"
         },
         {
             "message": "Missing item type",
-            "line": " src/component.js:952"
+            "line": " src/component.js:974"
         },
         {
             "message": "Missing item type\nProtected virtual template method, optionally implemented\nby sub-classes to perform a scheduled task.",
-            "line": " src/component.js:964"
+            "line": " src/component.js:986"
         },
         {
             "message": "Missing item type\nProtected template method, implemented by sub-classes to compile\ntheir state into their Scene's XEO.renderer.Renderer.",
-            "line": " src/component.js:972"
+            "line": " src/component.js:994"
         },
         {
             "message": "Missing item type\nProtected template method, implemented by sub-classes\nto clean up just before the component is destroyed.",
-            "line": " src/component.js:1114"
+            "line": " src/component.js:1144"
         },
         {
             "message": "Missing item type\nReleases a shared component instance that was got earlier\nwith {{#crossLink \"Scene/getSharedComponent:method\"}}{{/crossLink}}.",
@@ -24823,52 +25305,64 @@
             "line": " src/xeo.js:24"
         },
         {
+            "message": "Missing item type\nFor each component type, a list of its supertypes, ordered upwards in the hierarchy.",
+            "line": " src/xeo.js:147"
+        },
+        {
             "message": "Missing item type\nTests if the given object is an array",
-            "line": " src/xeo.js:430"
+            "line": " src/xeo.js:437"
         },
         {
             "message": "Missing item type\nTests if the given value is a string",
-            "line": " src/xeo.js:438"
+            "line": " src/xeo.js:445"
         },
         {
             "message": "Missing item type\nTests if the given value is a number",
-            "line": " src/xeo.js:449"
+            "line": " src/xeo.js:455"
         },
         {
             "message": "Missing item type\nTests if the given value is an ID",
-            "line": " src/xeo.js:459"
+            "line": " src/xeo.js:465"
         },
         {
             "message": "Missing item type\nTests if the given components are the same, where the components can be either IDs or instances.",
-            "line": " src/xeo.js:469"
+            "line": " src/xeo.js:475"
         },
         {
             "message": "Missing item type\nTests if the given value is a function",
-            "line": " src/xeo.js:488"
+            "line": " src/xeo.js:494"
         },
         {
-            "message": "Missing item type",
-            "line": " src/xeo.js:498"
-        },
-        {
-            "message": "Missing item type",
+            "message": "Missing item type\nTests if the given value is a JavaScript JSON object, eg, ````{ foo: \"bar\" }````.",
             "line": " src/xeo.js:504"
         },
         {
-            "message": "Missing item type\nAdd non-null/defined properties of o to o2",
-            "line": " src/xeo.js:515"
+            "message": "Missing item type\nTests if the given component type is a subtype of another component supertype.",
+            "line": " src/xeo.js:517"
         },
         {
-            "message": "Missing item type\nAdd properties of o to o2 where undefined or null on o2",
-            "line": " src/xeo.js:530"
-        },
-        {
-            "message": "Missing item type\nReturns true if the given map is empty.",
+            "message": "Missing item type",
             "line": " src/xeo.js:545"
         },
         {
+            "message": "Missing item type",
+            "line": " src/xeo.js:551"
+        },
+        {
+            "message": "Missing item type\nAdd non-null/defined properties of o to o2",
+            "line": " src/xeo.js:562"
+        },
+        {
+            "message": "Missing item type\nAdd properties of o to o2 where undefined or null on o2",
+            "line": " src/xeo.js:577"
+        },
+        {
+            "message": "Missing item type\nReturns true if the given map is empty.",
+            "line": " src/xeo.js:592"
+        },
+        {
             "message": "Missing item type\nReturns the given ID as a string, in quotes if the ID was a string to begin with.\n\nThis is useful for logging IDs.",
-            "line": " src/xeo.js:560"
+            "line": " src/xeo.js:607"
         },
         {
             "message": "Missing item type\nThe base class for all VR displays.",
